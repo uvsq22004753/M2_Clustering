@@ -1,43 +1,5 @@
 from fingerprints import fingerprint, dist_sim
-
-def readfile(filename):
-    """
-    Lit un fichier .out contenant des molécules et leurs SMILES associés, puis retourne une liste de tuples.
-
-    Le fichier doit avoir un format où chaque ligne contient le nom d'une molécule suivi de ses SMILES,
-    séparés par le caractère '\x1f'. Si une molécule a plusieurs SMILES, ceux-ci sont séparés par '\x1e'.
-    La fonction traite chaque ligne du fichier, sépare les informations pertinentes, et retourne une 
-    liste de tuples (nom de la molécule, liste des SMILES associés).
-
-    Arguments:
-    ----------
-    filename: str 
-        Le nom du fichier à lire.
-
-    Retourne:
-    ----------
-    list: Une liste de tuples. Chaque tuple contient le nom d'une molécule et une liste de SMILES associés.
-          Exemple: [("molécule1", ["SMILES1", "SMILES2"]), ("molécule2", ["SMILES3"])]
-    """
-    # Liste pour stocker les résultats
-    resultats = []
-
-    # Lecture du fichier
-    with open(filename, "r") as file:
-        lignes = file.readlines()
-
-        for ligne in lignes:
-            # Suppression des espaces et sauts de ligne
-            ligne = ligne.strip()
-            # Séparation de nom de la molécule et de ces SMILES
-            nom, smiles = ligne.split('\x1f')
-            # Sépare les SMILES d'une meme molécule
-            smiles = smiles.split('\x1e')
-
-            # Ajout à la liste des résultats
-            resultats.append((nom, smiles))
-    
-    return resultats
+from smiles_utils import readfile
 
 
 def test_best_fp(filename):

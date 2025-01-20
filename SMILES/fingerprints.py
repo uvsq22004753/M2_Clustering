@@ -52,7 +52,8 @@ def fingerprint(SMILES, fp_type, fp_size=2048):
     else:
         raise ValueError("Le type de fingerprint n'est pas valide.")
 
-    return fp
+    arr = np.zeros((1,))
+    return DataStructs.ConvertToNumpyArray(fp, arr)
 
 
 def dist_sim(fp1, fp2, dist_type):
