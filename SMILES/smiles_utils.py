@@ -3,7 +3,7 @@ from sklearn.metrics.pairwise import cosine_distances
 from sklearn.metrics import jaccard_score
 from rdkit.Chem import DataStructs
 
-def readfile(filename):
+def readfile_with_cn(filename):
     """
     Lit un fichier .out contenant des molécules et leurs SMILES associés, puis retourne une liste de tuples.
 
@@ -41,6 +41,75 @@ def readfile(filename):
             resultats.append((nom, smiles))
     
     return resultats
+
+def readfile_without_cn(filename):
+    """
+    Lit un fichier .txt contenant des SMILES, puis retourne une liste de SMILES.
+
+    Le fichier doit avoir un format où chaque ligne contient un SMILES.
+    La fonction traite chaque ligne du fichier et retourne une liste de SMILES.
+
+    Arguments:
+    ----------
+    filename: str 
+        Le nom du fichier à lire.
+
+    Retourne:
+    ----------
+    list: Une liste de SMILES.
+          Exemple: ["SMILES1", "SMILES2", "SMILES3"]
+    """
+    # Liste pour stocker les résultats
+    resultats = []
+
+    # Lecture du fichier
+    with open(filename, "r") as file:
+        lignes = file.readlines()
+
+        for ligne in lignes:
+            # Suppression des espaces et sauts de ligne
+            ligne = ligne.strip()
+            # Ajout à la liste des résultats
+            resultats.append(ligne)
+    
+    return resultats
+
+def read_simil_matrix(filename):
+    """
+    Structure en sortie potentiellement à optimiser en fonction de l'implémentation de l'algo de clustering.
+
+    Lit un fichier .txt contenant une matrice de similarités, puis retourne une matrice numpy. 
+
+    Le fichier doit avoir un format où chaque ligne contient une liste de valeurs de similarité.
+    La fonction traite chaque ligne du fichier et retourne une matrice numpy.
+
+    Arguments:
+    ----------
+    filename: str 
+        Le nom du fichier à lire.
+
+    Retourne:
+    ----------
+    numpy.ndarray: Une matrice de similarités.
+    """
+    # Liste pour stocker les résultats
+    resultats = []
+
+    # Lecture du fichier
+    with open(filename, "r") as file:
+        lignes = file.readlines()
+
+        for ligne in lignes:
+            # Suppression des espaces et sauts de ligne
+            ligne = ligne.strip()
+            # Conversion de la ligne en une liste de valeurs
+            valeurs = [float(val) for val in ligne.split(',')]
+            # Ajout à la liste des résultats
+            resultats.append(valeurs)
+    
+    return resultats
+
+
 
 def apply_simil_for_transform(smile1, smile2, transform, similarity_type):
     """
@@ -98,3 +167,7 @@ def similarity_jaccard(smile1, smile2):
     """
     distance = jaccard_score(smile1, smile2, average='binary')
     return 1 - distance
+
+
+mat = read_simil_matrix("SMILES/matrix.txt")
+print(mat)

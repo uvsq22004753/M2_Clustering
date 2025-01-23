@@ -55,6 +55,14 @@ def fingerprint(SMILES, fp_type, fp_size=2048):
     arr = np.zeros((1,))
     return DataStructs.ConvertToNumpyArray(fp, arr)
 
+def fingerprint_morgan(SMILES):
+    # Construction d'un objet Molecule à partir d'un SMILES
+    mol = Chem.MolFromSmiles(SMILES)
+    generator = rdFingerprintGenerator.GetMorganGenerator(radius=2, fpSize=2048)
+    fp = generator.GetFingerprint(mol)
+    arr = np.zeros((1,))
+    return DataStructs.ConvertToNumpyArray(fp, arr)
+
 
 def dist_sim(fp1, fp2, dist_type):
     """
