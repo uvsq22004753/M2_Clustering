@@ -2,7 +2,8 @@ from rdkit import Chem
 from rdkit.Chem import DataStructs, rdFingerprintGenerator, MACCSkeys
 import numpy as np
 from sklearn.metrics.pairwise import cosine_distances
-
+from smiles_utils import readfile_without_cn
+from tqdm import tqdm
 
 def fingerprint(SMILES, fp_type, fp_size=2048):
     """
@@ -60,8 +61,8 @@ def fingerprint_morgan(SMILES):
     mol = Chem.MolFromSmiles(SMILES)
     generator = rdFingerprintGenerator.GetMorganGenerator(radius=2, fpSize=2048)
     fp = generator.GetFingerprint(mol)
-    arr = np.zeros((1,))
-    return DataStructs.ConvertToNumpyArray(fp, arr)
+    #return DataStructs.ConvertToNumpyArray(fp, arr)
+    return fp.ToList()
 
 
 def dist_sim(fp1, fp2, dist_type):
@@ -113,3 +114,14 @@ def dist_sim(fp1, fp2, dist_type):
     
     return distance, similarity
 
+def write_all_fingerprints(filename, smiles_name):
+    smiles = readfile_without_cn(smiles_name)
+    with open(filename, "x") as file:
+        for smile in tqdm(smiles):
+            fp = fingerprint_morgan(smile)
+            for val in fp[:-1]:
+                file.write(f"{val}")
+            file.write(f"{fp[-1]}")
+            file.write("\n")
+
+write_all_fingerprints("morgan_fingerprints.txt", "SMILES/data/smiles_without_cn.txt")

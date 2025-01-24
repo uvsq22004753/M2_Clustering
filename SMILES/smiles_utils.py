@@ -147,9 +147,12 @@ def similarity_cosinus(smile1, smile2):
     ----------
     float: La similarité cosinus entre les deux vecteurs.
     """
-    distance = cosine_distances([smile1], [smile2])[0][0] 
+    distance = cosine_distances(smile1, smile2)[0][0] 
 
     return 1 - distance
+
+def custom_jaccard(fp1, fp2):
+    return len(set(fp1) & set(fp2)) / len(set(fp1) | set(fp2))
 
 def similarity_jaccard(smile1, smile2):
     """
@@ -165,9 +168,7 @@ def similarity_jaccard(smile1, smile2):
     ----------
     float: La similarité de Jaccard (Tanimoto) entre les deux arrrays.
     """
-    distance = jaccard_score(smile1, smile2, average='binary')
+    distance = custom_jaccard(smile1, smile2)
     return 1 - distance
 
-
-mat = read_simil_matrix("SMILES/matrix.txt")
-print(mat)
+print(custom_jaccard([1, 1, 1, 0], [0, 1, 0, 0]))

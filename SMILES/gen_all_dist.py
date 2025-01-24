@@ -24,7 +24,7 @@ def gen_all_dist(smiles, transform, similarity_type):
     resultats = []
     for i in tqdm(range(len(smiles))):
         valeurs = []
-        for j in range(i, len(smiles)):
+        for j in tqdm(range(i, len(smiles))):
             if transform != None:
                 valeurs.append(apply_simil_for_transform(smiles[i], smiles[j], transform, similarity_type))
             else:
@@ -61,11 +61,10 @@ if __name__ == "__main__":
 
     #mat_lingo_jacc = gen_all_dist(smiles, gen_lingos, similarity_jaccard)
     #write_matrix(mat_lingo_jacc, "SMILES/matrix_lingo_jacc.txt")
-
-    mat_CLS = gen_all_dist(smiles, None, CLS)
-    write_matrix(mat_CLS, "SMILES/matrix_CLS.txt")
-
     mat_fingerprint_jacc = gen_all_dist(smiles, fingerprint_morgan, similarity_jaccard)
     write_matrix(mat_fingerprint_jacc, "SMILES/matrix_fingerprint_jacc.txt")
-    mat_fingerprint_cos = gen_all_dist(smiles, fingerprint_morgan, similarity_cosinus)
-    write_matrix(mat_fingerprint_cos, "SMILES/matrix_fingerprint_cos.txt")
+    """ mat_fingerprint_cos = gen_all_dist(smiles, fingerprint_morgan, similarity_cosinus)
+    write_matrix(mat_fingerprint_cos, "SMILES/matrix_fingerprint_cos.txt") """
+
+    """ mat_CLS = gen_all_dist(smiles, None, CLS)
+    write_matrix(mat_CLS, "SMILES/matrix_CLS.txt") """
