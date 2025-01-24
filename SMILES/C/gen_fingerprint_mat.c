@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 
 #define MAX_FINGERPRINTS 33668
 #define MAX_LENGTH 2050
@@ -22,7 +23,34 @@ double jaccard_distance(const char *fp1, const char *fp2) {
     return 1.0 - ((double)intersection / union_count);
 }
 
+double cosine_distance(char *smile1, char *smile2){
+    int intersection = 0;
+    int sum1 = 0;
+    int sum2 = 0;
+    
+    for(int i=0; i<strlen(smile1); i++){
+        if (smile1[i] == '1' || smile2[i] == '1' ){
+            if (smile1[i] == '1' && smile2[i] == '1'){
+                intersection++;
+                sum1++;
+                sum2++;
+            }
+            else{
+                if (smile1[i] == '1'){
+                    sum1++;
+                }
+                else{
+                    sum2++;
+                }
+            }
+        }
+    }
+    double theta = intersection / (double)(sum1 * sum2);
+    
+    return 1.0 - cos(theta);
+}
 
+// Main pour caculer la matrice de similarité
 int main() {
     FILE *file = fopen("../data/morgan_fingerprints.txt", "r");
     if (!file) {
@@ -43,7 +71,7 @@ int main() {
     fclose(file);
 
      // Open the output file for writing
-    FILE *output_file = fopen("../data/matrix/matrix_fingerprint_jacc.txt", "w");
+    FILE *output_file = fopen("../data/matrix/matrix_fingerprint_cos.txt", "w");
     if (!output_file) {
         perror("Failed to open output file");
         return EXIT_FAILURE;
@@ -54,10 +82,10 @@ int main() {
             printf("Progress: %d%%\n", i / (MAX_FINGERPRINTS / 100));
         }
         for (int j = i + 1; j < count - 1; j++) {
-            double distance = jaccard_distance(fingerprints[i], fingerprints[j]);
+            double distance = cosine_distance(fingerprints[i], fingerprints[j]);
             fprintf(output_file, "%f,", distance);
         }
-        double distance = jaccard_distance(fingerprints[i], fingerprints[count - 1]);
+        double distance = cosine_distance(fingerprints[i], fingerprints[count - 1]);
         fprintf(output_file, "%f\n", distance);
     }
 
