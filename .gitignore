@@ -135,3 +135,26 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
+
+# C extensions
+*.o
+*.a
+*.so
+
+# Executables
+a.out
+*.out
+*.exe
+
+# Libraries
+*.lib
+*.dll
+*.dylib
+
+# Debug files
+*.dSYM/
+*.stackdump
+
+# Generated files
+*.gen.c
+*.gen.h

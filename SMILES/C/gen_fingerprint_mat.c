@@ -3,7 +3,7 @@
 #include <string.h>
 
 #define MAX_FINGERPRINTS 33668
-#define MAX_LENGTH 2048
+#define MAX_LENGTH 2050
 
 // Function to calculate Jaccard distance
 double jaccard_distance(const char *fp1, const char *fp2) {
@@ -21,6 +21,7 @@ double jaccard_distance(const char *fp1, const char *fp2) {
 
     return 1.0 - ((double)intersection / union_count);
 }
+
 
 int main() {
     FILE *file = fopen("../data/morgan_fingerprints.txt", "r");
