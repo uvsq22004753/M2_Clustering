@@ -2,9 +2,12 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#include "cJSON.h"
 
 #define MAX_FINGERPRINTS 33668
 #define MAX_LENGTH 2050
+#define K 10
+#define ITER_LIM 100
 
 // Function to calculate Jaccard distance
 double jaccard_distance(const char *fp1, const char *fp2) {
@@ -50,11 +53,195 @@ double cosine_distance(char *smile1, char *smile2){
     return 1.0 - cos(theta);
 }
 
+double cosine_distance_centroid(char *smile, double *centroid){
+    double intersection = 0;
+    int sum1 = 0;
+    double sum2 = 0;
+    
+    for(int i=0; i<strlen(smile); i++){
+        if (smile[i] == '1' || centroid[i] != 0 ){
+            if (smile[i] == '1' && centroid[i] != 0){
+                intersection+=centroid[i];
+                sum1++;
+                sum2+=centroid[i]*centroid[i];
+            }
+            else{
+                if (smile[i] == '1'){
+                    sum1++;
+                }
+                else{
+                    sum2+=centroid[i]*centroid[i];
+                }
+            }
+        }
+    }
+    double theta = intersection / (double)(sum1 * sum2);
+    
+    return 1.0 - cos(theta);
+}
+
+int CLS(const char *smile1, const char *smile2) {
+    int m = strlen(smile1);
+    int n = strlen(smile2);
+    int dp[m + 1][n + 1];
+
+    for (int i = 0; i <= m; i++) {
+        for (int j = 0; j <= n; j++) {
+            dp[i][j] = 0;
+        }
+    }
+
+    for (int i = 1; i <= m; i++) {
+        for (int j = 1; j <= n; j++) {
+            if (smile1[i - 1] == smile2[j - 1]) {
+                dp[i][j] = dp[i - 1][j - 1] + 1;
+            } else {
+                dp[i][j] = (dp[i - 1][j] > dp[i][j - 1]) ? dp[i - 1][j] : dp[i][j - 1];
+            }
+        }
+    }
+
+    return dp[m][n];
+}
+
+int **create_matrix(int rows, int cols) {
+    int **matrix = (int **)malloc(rows * sizeof(int *));
+    for (int i = 0; i < rows; i++) {
+        matrix[i] = (int *)malloc(cols * sizeof(int));
+    }
+    return matrix;
+}
+
+void free_matrix(double **matrix, int rows) {
+    for (int i = 0; i < rows; i++) {
+        free(matrix[i]);
+    }
+    free(matrix);
+}
+
+cJSON* create_json(int **clusters){
+    cJSON *root = cJSON_CreateObject();
+    char name[20];
+    if (!root) {
+        perror("Failed to create JSON object");
+    }
+    cJSON *cluster = NULL;
+    for (int i=0; i<K; i++){
+        cluster = cJSON_CreateArray();
+        if (!cluster) {
+            perror("Failed to create JSON array");
+        }
+        sprintf(name, "cluster%d", i);
+        cJSON_AddItemToObject(root, name, cluster);
+        for (int j=0; j<MAX_FINGERPRINTS; j++){
+            if (clusters[i][j] == 1){
+                cJSON_AddItemToArray(cluster, cJSON_CreateNumber(j));
+            }
+        }
+    }
+    return root;
+}
+
+void init_centroid(double **centroid, char *fingerprints[]){
+    int i_rand = 0;
+    int current = 0;
+    for (int i=0; i<K; i++){
+        i_rand = rand() % MAX_FINGERPRINTS;
+        for (int j=0; j<MAX_LENGTH-2; j++){
+            current = fingerprints[i_rand][j] - '0';
+            centroid[i][j] = (double)current;
+        }
+    }
+}
+
+void init_clusters(int **clusters){
+    int rand_K = 0;
+    for (int i=0; i<MAX_FINGERPRINTS; i++){
+        rand_K = rand() % K;
+        clusters[rand_K][i] = 1;
+    }
+}
+
+int find_cluster(int **clusters, int index){
+    for (int i=0; i<K; i++){
+        if (clusters[i][index] == 1){
+            return i;
+        }
+    }
+    return -1;
+}
+
+void update_curr_centroid(double *curr_centroid, char *fp){
+    for (int i=0; i<MAX_LENGTH-2; i++){
+        if (fp[i] == '1'){
+            curr_centroid[i]++;
+        }
+    }
+}
+
+void update_centroid(double **centroid, int **clusters, char *fingerprints[]){
+    double curr_centroid[MAX_LENGTH-2] = {0};
+    int count = 0;
+    for (int i=0; i<K; i++){
+        for (int j=0; j<MAX_FINGERPRINTS; j++){
+            if (clusters[i][j] == 1){
+                count++;
+                update_curr_centroid(curr_centroid, fingerprints[i]);
+            }
+        }
+
+        for (int k=0; k<MAX_FINGERPRINTS; k++){
+            curr_centroid[k] /= count;
+        }
+        memcpy(centroid[i], curr_centroid, (MAX_LENGTH-2) * sizeof(int));   
+    }
+}
+
+int **k_mean_clustering(char *fingerprints[]){
+
+    printf("Init des structures de donneés");
+    double **centroid = (double **)create_matrix(K, MAX_LENGTH-2);
+    int **clusters = create_matrix(K, MAX_FINGERPRINTS);
+
+    init_centroid(centroid, fingerprints);
+    init_clusters(clusters);
+
+    int change = 1;
+    int count = 0;
+    int num_cluster = 0;
+
+    printf("Début clustering");
+    while (change && count < ITER_LIM){
+        count++;
+        change = 0;
+        for (int i=0; i<K; i++){
+            for (int j=0; j<MAX_FINGERPRINTS; j++){
+                num_cluster = find_cluster(clusters, j);
+                if (num_cluster != -1){
+                    if (cosine_distance_centroid(fingerprints[j], centroid[i]) < cosine_distance_centroid(fingerprints[j], centroid[num_cluster])){
+                        clusters[i][j] = 1;
+                        clusters[num_cluster][j] = 0;
+                        change = 1;
+                    }
+                }
+                else {
+                    perror("Failed to find cluster");
+                }
+            }
+        }
+        update_centroid(centroid, clusters, fingerprints);
+        printf("Iteration #%d\n", count);
+    }
+    free_matrix(centroid, K);
+
+    return clusters;
+}
+
 // Main pour caculer la matrice de similarité
-int main() {
-    FILE *file = fopen("../data/morgan_fingerprints.txt", "r");
+int main_simil() {
+    FILE *file = fopen("../data/smiles_without_cn.txt", "r");
     if (!file) {
-        perror("Failed to open inputfile");
+        perror("Failed to open input file");
         return EXIT_FAILURE;
     }
 
@@ -71,7 +258,7 @@ int main() {
     fclose(file);
 
      // Open the output file for writing
-    FILE *output_file = fopen("../data/matrix/matrix_fingerprint_cos.txt", "w");
+    FILE *output_file = fopen("../data/matrix/matrix_CL.txt", "w");
     if (!output_file) {
         perror("Failed to open output file");
         return EXIT_FAILURE;
@@ -82,11 +269,11 @@ int main() {
             printf("Progress: %d%%\n", i / (MAX_FINGERPRINTS / 100));
         }
         for (int j = i + 1; j < count - 1; j++) {
-            double distance = cosine_distance(fingerprints[i], fingerprints[j]);
-            fprintf(output_file, "%f,", distance);
+            int distance = CLS(fingerprints[i], fingerprints[j]);
+            fprintf(output_file, "%d,", distance);
         }
-        double distance = cosine_distance(fingerprints[i], fingerprints[count - 1]);
-        fprintf(output_file, "%f\n", distance);
+        int distance = CLS(fingerprints[i], fingerprints[count - 1]);
+        fprintf(output_file, "%d\n", distance);
     }
 
     // Free memory
@@ -95,4 +282,55 @@ int main() {
     }
 
     return EXIT_SUCCESS;
+}
+
+// Main pour faire un clustering k-mean
+int main_k_mean(){
+
+    printf("Ouverture du fichier");
+    FILE *file = fopen("../data/smiles_without_cn.txt", "r");
+    if (!file) {
+        perror("Failed to open input file");
+        return EXIT_FAILURE;
+    }
+
+    char *fingerprints[MAX_FINGERPRINTS];
+    char buffer[MAX_LENGTH];
+    int count = 0;
+
+    printf("Lecture du fichier de fingerprints");
+    // Read fingerprints from file
+    while (fgets(buffer, MAX_LENGTH, file) && count < MAX_FINGERPRINTS) {
+        buffer[strcspn(buffer, "\n")] = '\0'; // Remove newline character
+        fingerprints[count] = strdup(buffer);
+        count++;
+    }
+    fclose(file);
+
+    printf("Début du clustering");
+    int **clusters = k_mean_clustering(fingerprints);
+    cJSON *results = create_json(clusters);
+    free_matrix((double **)clusters, K);
+
+    char *json_string = cJSON_Print(results);
+    cJSON_Delete(results);
+
+      // Open the output file for writing
+    FILE *output_file = fopen("../data/json/kmean_cosineFP.json", "w");
+    if (!output_file) {
+        perror("Failed to open output file");
+        return EXIT_FAILURE;
+    }
+
+    fprintf(output_file, "%s\n", json_string);
+    fclose(output_file);
+
+    return 0;
+}
+
+int main(){
+    printf("Là on est dans le main");
+    //int i = main_simil();
+    int i = main_k_mean();
+    return i;
 }

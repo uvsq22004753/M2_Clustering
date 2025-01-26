@@ -11,6 +11,7 @@ TARGET = gen
 
 # Source files
 SRCS = gen_fingerprint_mat.c
+SRCS += cJSON.c
 
 # Object files
 OBJS = $(SRCS:.c=.o)
