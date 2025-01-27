@@ -1,8 +1,16 @@
 from matchms.importing import load_from_mgf
 from matchms.exporting import save_as_mgf
-from matchms.filtering import normalize_intensities
 from matchms import Spectrum
+
+import os
+import time
 import numpy as np
+import shutil
+import logging
+
+# on affiche pas les erreurs de matchms
+logging.getLogger("matchms").setLevel(logging.ERROR)
+
 
 def binning(spec, bin_size, opt= 'somme'):
     """
@@ -23,9 +31,8 @@ def binning(spec, bin_size, opt= 'somme'):
 
     Retourne
     -------
-    tuple
-        - binned_mz (np.ndarray) : Débuts des plages de bins (valeurs de m/z regroupées).
-        - binned_intensities (np.ndarray) : Intensités agrégées selon la méthode choisie.
+    Spectrum
+        nouveau spectre matchms
 
     Raises
     ------
@@ -53,9 +60,6 @@ def binning(spec, bin_size, opt= 'somme'):
         bin_counts = np.bincount(inverse_indices)
         binned_intensities /= bin_counts
 
-    # Donner un nom aux bins : débuts d'intervalles m/z
-    # binned_mz = 20 + unique_bins * bin_size
-
     # Normaliser les intensités pour les ramener entre 0 et 1
     max_val = np.max(binned_intensities)
     if max_val > 0:
@@ -64,83 +68,6 @@ def binning(spec, bin_size, opt= 'somme'):
         raise ZeroDivisionError("Les intensités sont toutes nulles, normalisation impossible.")
 
     return Spectrum(mz=unique_bins.astype(float), intensities=binned_intensities, metadata=spec.metadata)
-
-
-def centroid_binning(spec, bin_size, opt='somme'):
-    """
-    Effectue un binning centroïde sur un spectre en regroupant les valeurs m/z 
-    autour des centroïdes les plus proches en fonction d'une taille de bin donnée.
-
-    Arguments
-    ----------
-    spec : Spectrum
-        Un spectre au format matchms contenant les attributs peaks.mz (m/z), 
-        peaks.intensities (intensités) et metadata (métadonnées).
-    bin_size : float
-        Taille des intervalles entre les centroïdes. Chaque m/z sera assigné
-        au centroïde le plus proche, défini comme un multiple de bin_size.
-    opt : str, optional
-        Méthode d'agrégation des intensités dans chaque bin. Les options possibles sont :
-        - "somme" : Additionne les intensités des m/z associés à un même bin (par défaut).
-        - "moyenne" : Moyenne les intensités des m/z associés à un même bin.
-
-    Retourne
-    -------
-    Spectrum
-        spectre modifié
-    """
-    
-    spec_mz = spec.peaks.mz
-    spec_intensities = spec.peaks.intensities
-    
-    # Initialiser des dictionnaires pour regrouper les bins
-    bin_dict = {}
-    count_dict = {}
-
-    for mz, intensity in zip(spec_mz, spec_intensities):
-        # Trouver le centroïde le plus proche
-        centroid = round(round(mz / bin_size)*bin_size, count_decimal(bin_size))
-
-        if centroid not in bin_dict:
-            bin_dict[centroid] = 0
-            count_dict[centroid] = 0
-
-        bin_dict[centroid] += intensity
-        count_dict[centroid] += 1
-
-    # Convertir les bins en tableaux numpy
-    binned_mz = np.array(list(bin_dict.keys()))
-    binned_intensities = np.array(list(bin_dict.values()), dtype=np.float32)
-
-    # Moyenne des intensités si demandé
-    if opt == 'moyenne':
-        counts = np.array([count_dict[mz] for mz in binned_mz])
-        binned_intensities /= counts
-
-    res = Spectrum(mz=binned_mz.astype(float), intensities=binned_intensities, metadata=spec.metadata)
-
-    return normalize_intensities(res)
-
-
-def count_decimal(number):
-    """
-    Compte le nombre de chiffres après la virgule pour un nombre donné.
-
-    Arguments
-    ----------
-    number : float
-        Le nombre pour lequel on veut compter les chiffres après la virgule.
-
-    Retourne
-    -------
-    int
-        Le nombre de chiffres après la virgule.
-    """
-    # Convertir en chaîne et supprimer les zéros inutiles
-    str_number = str(number).rstrip('0')
-    if '.' in str_number:
-        return len(str_number.split('.')[1])
-    return 0
 
 
 def padding(spec1_mz, spec1_intensities, spec2_mz ,spec2_intensities):
@@ -190,37 +117,77 @@ def padding(spec1_mz, spec1_intensities, spec2_mz ,spec2_intensities):
     return padded_intensities1, padded_intensities2
 
 
-def apply_binning(file_init, file_final, bin, opt='somme', type="centre"):
+def new_dir(directory):
     """
-    Applique un binning (regroupement) sur tous les spectres d'un fichier MGF d'entrée
-    et enregistre les spectres modifiés dans un fichier MGF de sortie.
+    Crée un répertoire ou supprime et recrée un répertoire existant.
 
-    Paramètres :
+    Cette fonction vérifie si le répertoire spécifié existe. Si c'est le cas, 
+    elle demande à l'utilisateur s'il souhaite le supprimer. Si l'utilisateur 
+    accepte, le répertoire est supprimé et recréé. Sinon, le programme s'arrête.
+    Si le répertoire n'existe pas, il est simplement créé.
+
+    Arguments
     ----------
-    file_init : str
-        Chemin vers le fichier MGF d'entrée contenant les spectres bruts.
-    file_final : str
-        Chemin vers le fichier MGF de sortie où seront enregistrés les spectres modifiés.
-        Si le fichier existe déjà, son contenu sera effacé avant d'écrire les nouveaux spectres.
-    bin : float
-        Taille des bins pour le regroupement des valeurs m/z.
-        Chaque bin regroupe les m/z dans des intervalles de largeur spécifiée par `bin`.
-    opt : str, optional
-        Méthode d'agrégation des intensités dans chaque bin (par défaut = 'somme').
-        - "somme" : Les intensités dans chaque bin sont additionnées.
-        - "moyenne" : Les intensités dans chaque bin sont moyennées.
+    directory : str
+        Chemin du répertoire à créer ou recréer.
 
-    Retourne :
-    ---------
+    Retourne
+    -------
+    None
+    """
+    if os.path.exists(directory):
+        if input(f"[WARNING] Remove '{directory}' directory ? [y/N] ").lower()=='y':
+            shutil.rmtree(directory)
+        else:
+            print("Aborting...")
+            exit(0)
+    os.mkdir(directory)
+
+
+def mass_spectra_binning(inputdir="./adducts", bin_size=1, opt='somme'):
+    """
+    Regroupe les masses des spectres (binning) dans des fichiers MGF et sauvegarde les résultats.
+
+    Cette fonction parcourt les fichiers MGF dans un répertoire d'entrée, applique un binning
+    sur les spectres selon une taille spécifiée, puis sauvegarde les spectres regroupés dans un
+    nouveau répertoire. Chaque fichier traité génère un fichier MGF correspondant avec les données 
+    regroupées.
+
+    Arguments
+    ----------
+    inputdir : str, optionnel
+        Chemin du répertoire contenant les fichiers MGF à traiter (par défaut "./adducts").
+    bin_size : float, optionnel
+        Taille des bins (intervalle de regroupement des masses) (par défaut 1).
+    opt : str, optionnel
+        Méthode de regroupement utilisée, par exemple 'somme' pour sommer les intensités (par défaut 'somme').
+
+    Retourne
+    -------
     None
     """
 
-    spectra = list(load_from_mgf(file_init))
-    if type == 'centre':
-        spectr_binned = [centroid_binning(spec, bin, opt) for spec in spectra]
-    elif type == 'pas':
-        spectr_binned = [binning(spec, bin, opt) for spec in spectra]
+    outputdir = inputdir + "Bin" + str(bin_size).replace(".", "")
+    new_dir(outputdir)
 
-    open(file_final, "w").close()
+    for file in os.listdir(inputdir):
 
-    save_as_mgf(spectr_binned, file_final)
+        print(f"Processing {file} file...")
+        
+        deb = time.time()
+        input_file_path = os.path.join(inputdir, file)
+        input_file_path = os.path.normpath(input_file_path)
+        
+        spectra = list(load_from_mgf(input_file_path))
+        binned_spectra = [binning(spec, bin_size, opt) for spec in spectra]
+
+        output_file = file[:-4] + "_Bin" + str(bin_size).replace('.', "") + ".mgf"
+        output_file_path = os.path.join(outputdir, output_file)
+        output_file_path = os.path.normpath(output_file_path)
+
+        save_as_mgf(binned_spectra, output_file_path)
+        print(f"Execution in {time.time()-deb} s.")
+
+if __name__ == '__main__':
+    
+    mass_spectra_binning()
