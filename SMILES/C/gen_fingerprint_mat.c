@@ -106,8 +106,32 @@ int CLS(const char *smile1, const char *smile2) {
 
 int **create_matrix(int rows, int cols) {
     int **matrix = (int **)malloc(rows * sizeof(int *));
+    if (matrix == NULL) {
+        perror("Failed to allocate memory for matrix");
+        exit(EXIT_FAILURE);
+    }
     for (int i = 0; i < rows; i++) {
         matrix[i] = (int *)malloc(cols * sizeof(int));
+        if (matrix[i] == NULL) {
+            perror("Failed to allocate memory for matrix row");
+            exit(EXIT_FAILURE);
+        }
+    }
+    return matrix;
+}
+
+double **create_matrix_double(int rows, int cols) {
+    double **matrix = (double **)malloc(rows * sizeof(double *));
+    if (matrix == NULL) {
+        perror("Failed to allocate memory for matrix");
+        exit(EXIT_FAILURE);
+    }
+    for (int i = 0; i < rows; i++) {
+        matrix[i] = (double *)malloc(cols * sizeof(double));
+        if (matrix[i] == NULL) {
+            perror("Failed to allocate memory for matrix row");
+            exit(EXIT_FAILURE);
+        }
     }
     return matrix;
 }
@@ -180,7 +204,7 @@ void update_curr_centroid(double *curr_centroid, char *fp){
 }
 
 void update_centroid(double **centroid, int **clusters, char *fingerprints[]){
-    double curr_centroid[MAX_LENGTH-2] = {0};
+    double *curr_centroid = (double *)malloc((MAX_LENGTH-2) * sizeof(double));;
     int count = 0;
     for (int i=0; i<K; i++){
         for (int j=0; j<MAX_FINGERPRINTS; j++){
@@ -195,13 +219,13 @@ void update_centroid(double **centroid, int **clusters, char *fingerprints[]){
         }
         memcpy(centroid[i], curr_centroid, (MAX_LENGTH-2) * sizeof(int));   
     }
+    free(curr_centroid);
 }
 
 int **k_mean_clustering(char *fingerprints[]){
 
-    printf("Init des structures de donneés");
-    double **centroid = (double **)create_matrix(K, MAX_LENGTH-2);
     int **clusters = create_matrix(K, MAX_FINGERPRINTS);
+    double **centroid = create_matrix_double(K, MAX_LENGTH-2);
 
     init_centroid(centroid, fingerprints);
     init_clusters(clusters);
@@ -210,7 +234,6 @@ int **k_mean_clustering(char *fingerprints[]){
     int count = 0;
     int num_cluster = 0;
 
-    printf("Début clustering");
     while (change && count < ITER_LIM){
         count++;
         change = 0;
@@ -238,7 +261,7 @@ int **k_mean_clustering(char *fingerprints[]){
 }
 
 // Main pour caculer la matrice de similarité
-int main_simil() {
+int _main_simil() {
     FILE *file = fopen("../data/smiles_without_cn.txt", "r");
     if (!file) {
         perror("Failed to open input file");
@@ -285,9 +308,8 @@ int main_simil() {
 }
 
 // Main pour faire un clustering k-mean
-int main_k_mean(){
+int _main_k_mean(){
 
-    printf("Ouverture du fichier");
     FILE *file = fopen("../data/smiles_without_cn.txt", "r");
     if (!file) {
         perror("Failed to open input file");
@@ -298,7 +320,6 @@ int main_k_mean(){
     char buffer[MAX_LENGTH];
     int count = 0;
 
-    printf("Lecture du fichier de fingerprints");
     // Read fingerprints from file
     while (fgets(buffer, MAX_LENGTH, file) && count < MAX_FINGERPRINTS) {
         buffer[strcspn(buffer, "\n")] = '\0'; // Remove newline character
@@ -307,7 +328,6 @@ int main_k_mean(){
     }
     fclose(file);
 
-    printf("Début du clustering");
     int **clusters = k_mean_clustering(fingerprints);
     cJSON *results = create_json(clusters);
     free_matrix((double **)clusters, K);
@@ -329,8 +349,9 @@ int main_k_mean(){
 }
 
 int main(){
-    printf("Là on est dans le main");
-    //int i = main_simil();
-    int i = main_k_mean();
+    //int i = _main_simil();
+    printf("Début du clustering\n");
+    int i = _main_k_mean();
+    printf("Fin du clustering\n");
     return i;
 }

@@ -10,8 +10,7 @@ CFLAGS = -Wall -O2
 TARGET = gen
 
 # Source files
-SRCS = gen_fingerprint_mat.c
-SRCS += cJSON.c
+SRCS = gen_fingerprint_mat.c cJSON.c
 
 # Object files
 OBJS = $(SRCS:.c=.o)
