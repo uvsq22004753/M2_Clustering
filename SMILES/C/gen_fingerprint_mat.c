@@ -7,7 +7,7 @@
 #define MAX_FINGERPRINTS 33668
 #define MAX_LENGTH 2050
 #define K 10
-#define ITER_LIM 100
+#define ITER_LIM 1000
 
 // Function to calculate Jaccard distance
 double jaccard_distance(const char *fp1, const char *fp2) {
@@ -48,9 +48,14 @@ double cosine_distance(char *smile1, char *smile2){
             }
         }
     }
-    double theta = intersection / (double)(sum1 * sum2);
+
+    if (sum1 == 0 || sum2 == 0){
+        return 1.0;
+    }
+
+    double theta = intersection / (double)(sqrt(sum1) * sqrt(sum2));
     
-    return 1.0 - cos(theta);
+    return 1.0 - theta;
 }
 
 double cosine_distance_centroid(char *smile, double *centroid){
@@ -60,24 +65,29 @@ double cosine_distance_centroid(char *smile, double *centroid){
     
     for(int i=0; i<strlen(smile); i++){
         if (smile[i] == '1' || centroid[i] != 0 ){
-            if (smile[i] == '1' && centroid[i] != 0){
-                intersection+=centroid[i];
+            if (smile[i] == '1' && centroid[i] != 0.0){
+                intersection += centroid[i];
                 sum1++;
-                sum2+=centroid[i]*centroid[i];
+                sum2 += centroid[i]*centroid[i];
             }
             else{
                 if (smile[i] == '1'){
                     sum1++;
                 }
                 else{
-                    sum2+=centroid[i]*centroid[i];
+                    sum2 += centroid[i]*centroid[i];
                 }
             }
         }
     }
-    double theta = intersection / (double)(sum1 * sum2);
+
+    if (sum1 == 0 || sum2 == 0.0){
+        return 1.0;
+    }
+
+    double theta = intersection / (double)(sqrt(sum1) * sqrt(sum2));
     
-    return 1.0 - cos(theta);
+    return 1.0 - theta;
 }
 
 int CLS(const char *smile1, const char *smile2) {
@@ -233,18 +243,24 @@ int **k_mean_clustering(char *fingerprints[]){
     int change = 1;
     int count = 0;
     int num_cluster = 0;
+    int count_change = 0;
 
     while (change && count < ITER_LIM){
         count++;
         change = 0;
+        count_change = 0;
+        
         for (int i=0; i<K; i++){
             for (int j=0; j<MAX_FINGERPRINTS; j++){
                 num_cluster = find_cluster(clusters, j);
                 if (num_cluster != -1){
-                    if (cosine_distance_centroid(fingerprints[j], centroid[i]) < cosine_distance_centroid(fingerprints[j], centroid[num_cluster])){
-                        clusters[i][j] = 1;
-                        clusters[num_cluster][j] = 0;
-                        change = 1;
+                    if (num_cluster != i){
+                        if (cosine_distance_centroid(fingerprints[j], centroid[i]) < cosine_distance_centroid(fingerprints[j], centroid[num_cluster])){
+                            clusters[i][j] = 1;
+                            clusters[num_cluster][j] = 0;
+                            change = 1;
+                            count_change++;
+                        }
                     }
                 }
                 else {
@@ -254,6 +270,7 @@ int **k_mean_clustering(char *fingerprints[]){
         }
         update_centroid(centroid, clusters, fingerprints);
         printf("Iteration #%d\n", count);
+        printf("%d changements\n", count_change);
     }
     free_matrix(centroid, K);
 
