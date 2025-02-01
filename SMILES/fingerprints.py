@@ -104,3 +104,27 @@ def dist_sim(fp1, fp2, dist_type):
     
     return distance, similarity
 
+
+def morgan_fingerprint(SMILES, fp_size=2048):
+    """
+    Génère un fingerprint de type Morgan à partir d'une représentation SMILES.
+
+    Arguments
+    ----------
+    SMILES : str
+        Représentation SMILES de la molécule.
+    fp_size : int, optional
+        Taille du fingerprint généré (par défaut 2048 bits).
+
+    Retourne
+    -------
+    rdkit.DataStructs.cDataStructs.ExplicitBitVect
+        Un vecteur binaire représentant l'empreinte moléculaire de la molécule.
+    """
+    
+    # Construction d'un objet Molecule à partir d'un SMILES
+    mol = Chem.MolFromSmiles(SMILES)
+    generator = rdFingerprintGenerator.GetMorganGenerator(radius=2, fpSize=fp_size)
+    fp = generator.GetFingerprint(mol)
+
+    return fp
