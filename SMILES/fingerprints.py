@@ -128,3 +128,31 @@ def morgan_fingerprint(SMILES, fp_size=2048):
     fp = generator.GetFingerprint(mol)
 
     return fp
+
+
+def fp_matrix_distance(liste_smiles):
+    """
+    Calcule la matrice des distances cosinus entre fingerprints
+    à partir d'une liste de SMILES (str)
+
+    Arguments
+    ----------
+    liste_smiles : liste de str
+        Liste de chaînes SMILES représentant les molécules.
+
+    Retourne
+    -------
+    np.ndarray
+        Une matrice 2D (numpy array) contenant les distances cosinus entre chaque paire de molécules.
+        La valeur en (i, j) représente la distance entre la molécule i et la molécule j.
+    """
+    
+    # Génère les fingerprints pour tous les SMILES
+    fingerprints = [morgan_fingerprint(smile) for smile in liste_smiles]
+
+    # Convertion en array numpy 2D
+    numpy_smiles = np.vstack(fingerprints)
+
+    distance_matrix = cosine_distances(numpy_smiles)
+
+    return distance_matrix
