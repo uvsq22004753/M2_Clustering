@@ -46,7 +46,7 @@ def HAC(distance_matrix, NB_CLUSTERS = 150, filename="filename"):
     }
 
     # Sauvegarde dans un fichier JSON
-    json_filename = f"HAC_{filename}_fp_cos.json"
+    json_filename = f"HAC_{filename}.json"
     with open(json_filename, "w") as json_file:
         json.dump(cluster_info, json_file, indent=4)
 
@@ -78,7 +78,6 @@ def HAC(distance_matrix, NB_CLUSTERS = 150, filename="filename"):
 # filename = os.path.basename(pathname)
 # spectra = list_all_spectra(pathname)
 # distance_matrix = all_cosinus_distance_binning(spectra)
-# print(distance_matrix)
 
-# HAC(distance_matrix=distance_matrix, NB_CLUSTERS=150)
+# HAC(distance_matrix=distance_matrix, NB_CLUSTERS=150, filename=filename)
 # print(f'Programm Ending at: {datetime.now()}')
