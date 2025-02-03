@@ -83,31 +83,3 @@ def cosinus_binning(spec1, spec2):
     similarite /= (np.sum(spec1_intensities ** 2) ** 0.5 * np.sum(spec2_intensities ** 2) ** 0.5)
     
     return abs(1 - similarite)
-
-
-def all_cosinus_distance_binning(spectra):
-    """
-    Calcule une matrice des distances cosinus entre tous les spectres d'une liste.
-
-    Les distances sont calculées en appliquant un binning préalable sur les m/z.
-
-    Arguments
-    ----------
-    spectra : list
-        Liste de spectres (objets Matchms) à comparer.
-
-    Retourne
-    -------
-    np.ndarray
-        Matrice symétrique contenant les distances Manhattan entre chaque paire de spectres.
-    """
-
-    length = len(spectra)
-    scored = np.zeros((length, length))
-    for i in range(length):
-        for j in range(i, length):
-            score = cosinus_binning(spectra[i], spectra[j])
-            # on a une matrice symétrique
-            scored[i, j] = score
-            scored[j, i] = score
-    return scored

@@ -131,6 +131,26 @@ def new_dir(directory):
     os.mkdir(directory)
 
 
+def make_one_matrix(input, methode):
+    """
+    Génère la matrice des distances pour un fichier mgf.
+
+    Arguments
+    ----------
+    input : str
+        Chemin du fichier contenant les fichiers MGF.
+    methode : str
+        Méthode de comparaison ("cosinus", "manhattan" ou "simple").
+
+    Retourne
+    -------
+    None
+    """
+    output = input[:-4] + "_D" + "methode" + ".csv"
+    a = compute_distance_matrix(input, methode)
+    save_matrix(a, output)
+
+
 def make_matrix(inputdir, methode):
     """
     Génère des matrices de distances pour tous les fichiers MGF d'un dossier.
