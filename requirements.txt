@@ -1,3 +1,7 @@
 pyteomics
 numpy
 rdkit
+sklearn
+scipy
+matplotlib
+PIL
