@@ -1,0 +1,3 @@
+pyteomics
+numpy
+rdkit
