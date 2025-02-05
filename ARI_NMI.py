@@ -1,10 +1,19 @@
 from sklearn.metrics import adjusted_rand_score, normalized_mutual_info_score
 from cmp_cluster import *
+import os
 
 SMILE_PATH = "clusters/smiles"
 SPECTRE_PATH = "clusters/spectres"
-FILE_SMILES = ["[M-3H2O+H]1+_fp_kmean.json", "[M+Ca]2+_fp_kmean.json", "[2M+Ca]2+_fp_kmean.json"]
-FILE_SPECTRE = ["[M-3H2O+H]1+_spectre.json", "[M+Ca]2+_spectre.json"]
+
+
+def get_all_files_in_dir(directory):
+    files = []
+    for entry in os.listdir(directory):
+        entry_path = os.path.join(directory, entry)
+        if os.path.isfile(entry_path):
+            files.append(entry_path)
+    return files
+
 
 def transform_dict_cluster_to_list(clusters_dict):
     """
@@ -65,20 +74,23 @@ def NMI(smiles_clusters, spectra_clusters):
 
 
 def main():
+    FILE_SMILES = sorted(get_all_files_in_dir(SMILE_PATH))
+    FILE_SPECTRE = sorted(get_all_files_in_dir(SPECTRE_PATH))
+
     for i in range(min(len(FILE_SMILES), len(FILE_SPECTRE))):
-        clusters1 = open_json(f"{SMILE_PATH}/{FILE_SMILES[i]}")
-        clusters2 = open_json(f"{SPECTRE_PATH}/{FILE_SPECTRE[i]}")
+        clusters1 = open_json(FILE_SMILES[i])
+        clusters2 = open_json(FILE_SPECTRE[i])
 
         clusters1 = transform_dict_cluster_to_list(clusters1)
         clusters2 = transform_dict_cluster_to_list(clusters2)
 
-        print(f"Results : {FILE_SMILES[i][:-14]}")
+        print(f"Results : {FILE_SMILES[i][16:-11]}")
+        
 
         ari = ARI(clusters1, clusters2)
-        print(f"Adjusted Rand Index (ARI): {ari}")
-
         nmi = NMI(clusters1, clusters2)
-        print(f"Normalized Mutual Information (NMI): {nmi}")
+        print(f"{round(ari, 3)} | {round(nmi, 3)}")
+        
 
 ########################################################################
 
