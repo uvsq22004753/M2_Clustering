@@ -1,1 +1,6 @@
 __pycache__/
+clusters/*
+adducts
+ALL_GNPS_cleaned.mgf
+SMILES/data/matrix
+venv/
