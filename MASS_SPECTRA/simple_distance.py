@@ -39,37 +39,4 @@ def simple_similarity(spec1, spec2, tol):
     
     print(count)
     
-    return 1 - (2*count)/(len(spec1_mz)+len(spec2_mz))
-
-
-def all_simple_similarities(spectra, tolerance=0.0):
-    """
-    Calcule une matrice de similarité pour une liste de spectres, 
-    en utilisant la fonction `simple_similarity`.
-
-    Cette fonction compare chaque paire de spectres dans la liste 
-    et génère une matrice symétrique.
-
-    Paramètres :
-    ----------
-    - spectra : list
-        Liste de spectres, chaque spectre devant contenir les valeurs m/z dans l'attribut `peaks.mz`.
-    - tolerance : float, optional
-        Tolérance pour considérer deux pics m/z comme similaires (défaut = 0.1).
-
-    Retourne :
-    -------
-    - numpy.ndarray
-        Matrice 2D symétrique contenant les scores de similarité entre tous les spectres.
-    """
-
-    length = len(spectra)
-    scored = np.zeros((length, length))
-    for i in range(length):
-        for j in range(i, length):
-            score = simple_similarity(spectra[i], spectra[j], tolerance)
-            # on a une matrice symétrique
-            scored[i, j] = score
-            scored[j, i] = score 
-
-    return scored
+    return round(1 - (2*count)/(len(spec1_mz)+len(spec2_mz)), 10)

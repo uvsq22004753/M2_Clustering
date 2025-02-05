@@ -144,7 +144,36 @@ def new_dir(directory):
     os.mkdir(directory)
 
 
-def mass_spectra_binning(inputdir="./adducts", bin_size=1, opt='somme'):
+def mass_spectra_binning(input, output, bin_size=1, opt='somme'):
+    """
+    Regroupe les masses des spectres (binning) dans des fichiers MGF et sauvegarde les résultats.
+
+    Arguments
+    ----------
+    input : str
+        Chemin du fichier MGF à traiter
+    output : str
+        Chemin du fichier MGF dans lequel on stockera les spectres binned
+    bin_size : float, optionnel
+        Taille des bins (intervalle de regroupement des masses) (par défaut 1).
+    opt : str, optionnel
+        Méthode de regroupement utilisée, par exemple 'somme' pour sommer les intensités (par défaut 'somme').
+
+    Retourne
+    -------
+    None
+    """
+
+    deb = time.time()
+
+    spectra = list(load_from_mgf(input))
+    binned_spectra = [binning(spec, bin_size, opt) for spec in spectra]
+
+    save_as_mgf(binned_spectra, output)
+    print(f"Execution in {time.time()-deb} s.")
+
+
+def all_mass_spectra_binning(inputdir="./adducts", bin_size=1, opt='somme'):
     """
     Regroupe les masses des spectres (binning) dans des fichiers MGF et sauvegarde les résultats.
 

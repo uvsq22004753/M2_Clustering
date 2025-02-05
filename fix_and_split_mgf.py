@@ -5,9 +5,15 @@ import sys
 import shutil
 
 def _print_help():
+    """
+    Affiche un message d'aide pour utiliser ce script.
+    """
     print(f"python3 {sys.argv[0]} [MGF File] [Output Directory]")
 
 def _new_dir(directory):
+    """
+    Cree un nouveau dossier et ecrase son contenu si deja existant.
+    """
     if os.path.exists(directory):
         if input(f"[WARNING] Remove '{directory}' directory ? [y/N] ").lower()=='y':
             shutil.rmtree(directory)
@@ -18,6 +24,9 @@ def _new_dir(directory):
 
 
 def _clean_compound_name(compound_name):
+    """
+    Retourne le nom de la molecule sans le champ 'CollisionEnergy'.
+    """
     if "CollisionEnergy" in compound_name:
         tmp = compound_name.rsplit("CollisionEnergy", 1)
         if len(tmp) >= 3:
@@ -28,6 +37,10 @@ def _clean_compound_name(compound_name):
 
 
 def _print_dict(dictionary, boundless=False):
+    """
+    Affiche un dictionnaire de maniere plus organisee.
+    Si boundless = False, les clefs seront tronquees a une taille de 50.
+    """
     width = 0
     for key, value in dictionary.items():
         width = max(width, len(str(key)))
@@ -40,12 +53,21 @@ def _print_dict(dictionary, boundless=False):
 
 
 def _filter_params(params):
+    """
+    Retourne des parametres ne contenant que le nom de la molecule et le SMILES des parametres en entree.
+    """
     compound_name = params.get('compound_name')
     compound_name = _clean_compound_name(compound_name)
     smiles = params.get('smiles')
     return dict(smiles=smiles, compound_name=compound_name)
 
 def _filter_peaks(mz_array, intensity_array, mz_from=20, mz_to=20000, min_intensity=0.001):
+    """
+    Filtre et normalise les piques
+    Parametres:
+    - mz_from | mz_to, garde tous les piques dont la masse sur charge (mz) se trouve entre mz_from et mz_to.
+    - min_intensity, enleve tous les piques ayant une intensite (apres normalisation) en dessous de cette valeur.
+    """
     mask = numpy.logical_and(mz_from<=mz_array, mz_array<=mz_to)
     mz_array = mz_array[mask]
     intensity_array = intensity_array[mask]
@@ -65,9 +87,25 @@ def _filter_peaks(mz_array, intensity_array, mz_from=20, mz_to=20000, min_intens
     return mz_array, intensity_array
 
 def _fingerprint(params):
+    """
+    Retourne un fingerprint hashable des parametres en entree.
+    Deux parametres de meme clefs et de memes valeurs auront le meme fingerprint.
+    ATTENTION: L'ID n'est pas pris en compte.
+    """
     return chr(30).join([f"{i}{chr(31)}{params[i]}" for i in sorted(params) if i != 'id'])
 
 def fix_and_split_mgf_file(mgf_file="./ALL_GNPS_cleaned.mgf", output_dir="./adducts", stats=False):
+    """
+    Fonction principale du parsing.
+    Lit et divise un fichier MGF en plusieurs fichiers MGF en fonction de l'adduct.
+    Parametres:
+    - mgf_file, le fichier au format MGF a parser.
+    - output_dir, le dossier dans lequel mettre les fichiers MGF resultants
+    - stats, si stats=True, calcule des statistiques sur les fichiers resultants
+      (nombre des SMILES differents, nombre de parametres differents)
+      ATTENTION: Execution beaucoup plus longue.
+      False par defaut.
+    """
     _new_dir(output_dir)
     print(f"Processing {mgf_file} file.")
     print("[INFO] Quietly discarding when no SMILES.")
@@ -82,6 +120,7 @@ def fix_and_split_mgf_file(mgf_file="./ALL_GNPS_cleaned.mgf", output_dir="./addu
         print(f"{spectra_size} spectra.")
         nbr_digits = len(str(spectra_size))
         for i, spectrum in enumerate(spectra):
+            if i >= 15000: break
             print(f"\r{i:{nbr_digits}}/{spectra_size}", end='')
             params = spectrum.get('params')
             adduct = params.get('adduct')
@@ -140,6 +179,7 @@ def fix_and_split_mgf_file(mgf_file="./ALL_GNPS_cleaned.mgf", output_dir="./addu
     print(f"Total number of spectra discarded: {total_discarded}.")
 
 
+# Analyse des arguments et lancement du parsing
 if __name__ == '__main__':
     match len(sys.argv):
         case 1:
@@ -150,7 +190,7 @@ if __name__ == '__main__':
             else:
                 fix_and_split_mgf_file(sys.argv[1])
         case 3:
-            fix_and_split_mgf_file(sys.argv[1], sys.argv[2])
+            fix_and_split_mgf_file(sys.argv[1], sys.argv[2], True)
         case _:
             print("[ERROR] Too many arguments.")
             _print_help()

@@ -44,36 +44,6 @@ def manhattan_distance_binning(spec1, spec2):
         
     return distance
 
-
-def all_manhanttan_distances_binning(spectra):
-    """
-    Calcule une matrice des distances Manhattan entre tous les spectres d'une liste.
-
-    Les distances sont calculées en appliquant un binning préalable sur les m/z.
-
-    Arguments
-    ----------
-    spectra : list
-        Liste de spectres (objets Matchms) à comparer.
-
-    Retourne
-    -------
-    np.ndarray
-        Matrice symétrique contenant les distances Manhattan entre chaque paire de spectres.
-    """
-
-    length = len(spectra)
-    scored = np.zeros((length, length))
-    for i in range(length):
-        for j in range(i, length):
-            score = manhattan_distance_binning(spectra[i], spectra[j])
-            # on a une matrice symétrique
-            scored[i, j] = score
-            scored[j, i] = score
-    return scored
-
-
-
 def manhattan_distance_tolerance(spec1, spec2, tolerance):
     """
     Calcule la distance de Manhattan entre deux spectres en considérant une tolérance.
@@ -210,32 +180,3 @@ def find_matches(spec1, spec2, tolerance):
         matching_pairs.append([idx, idx2[i], np.abs(spec1_intensities[idx] - spec2_intensities[idx2[i]])])
     
     return np.array(matching_pairs.copy())
-
-
-def all_mahattan_distances_tolerance(spectra, tolerance):
-    """
-    Calcule une matrice des distances Manhattan entre tous les spectres avec tolérance.
-
-    Arguments
-    ----------
-    spectra : list
-        Liste de spectres (objets Matchms) à comparer.
-    tolerance : float
-        Tolérance pour associer les pics m/z.
-
-    Retourne
-    -------
-    np.ndarray
-        Matrice symétrique contenant les distances Manhattan entre chaque paire de spectres.
-    """
-
-    length = len(spectra)
-    scored = np.zeros((length, length))
-    for i in range(length):
-        for j in range(i, length):
-            score = manhattan_distance_tolerance(spectra[i], spectra[j], tolerance)
-            # on a une matrice symétrique
-            scored[i, j] = score
-            scored[j, i] = score 
-
-    return scored
