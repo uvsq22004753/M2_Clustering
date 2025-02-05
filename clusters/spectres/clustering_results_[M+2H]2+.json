@@ -1,0 +1,2867 @@
+{
+    "metadata": {
+        "date": "2025-02-05T15:41:43.071473",
+        "parameters": {
+            "mgf_file": "data/adducts/[M+2H]2+.mgf",
+            "bin_size": 5.0,
+            "mz_min": 20.0,
+            "mz_max": 2000.0,
+            "k_min": 2,
+            "k_max": 100,
+            "n_init": 10,
+            "random_state": 42,
+            "algorithm": "mini",
+            "n_jobs": -1,
+            "vis_method": "pca",
+            "tsne_perplexity": 5
+        },
+        "performance": {
+            "silhouette_score": 0.278,
+            "n_clusters": 97
+        }
+    },
+    "results": {
+        "clusters": [
+            {
+                "Molecule_ID": "0",
+                "Cluster_ID": 57
+            },
+            {
+                "Molecule_ID": "1",
+                "Cluster_ID": 45
+            },
+            {
+                "Molecule_ID": "2",
+                "Cluster_ID": 95
+            },
+            {
+                "Molecule_ID": "3",
+                "Cluster_ID": 12
+            },
+            {
+                "Molecule_ID": "4",
+                "Cluster_ID": 8
+            },
+            {
+                "Molecule_ID": "5",
+                "Cluster_ID": 8
+            },
+            {
+                "Molecule_ID": "6",
+                "Cluster_ID": 24
+            },
+            {
+                "Molecule_ID": "7",
+                "Cluster_ID": 8
+            },
+            {
+                "Molecule_ID": "8",
+                "Cluster_ID": 92
+            },
+            {
+                "Molecule_ID": "9",
+                "Cluster_ID": 61
+            },
+            {
+                "Molecule_ID": "10",
+                "Cluster_ID": 12
+            },
+            {
+                "Molecule_ID": "11",
+                "Cluster_ID": 89
+            },
+            {
+                "Molecule_ID": "12",
+                "Cluster_ID": 45
+            },
+            {
+                "Molecule_ID": "13",
+                "Cluster_ID": 45
+            },
+            {
+                "Molecule_ID": "14",
+                "Cluster_ID": 45
+            },
+            {
+                "Molecule_ID": "15",
+                "Cluster_ID": 22
+            },
+            {
+                "Molecule_ID": "16",
+                "Cluster_ID": 95
+            },
+            {
+                "Molecule_ID": "17",
+                "Cluster_ID": 45
+            },
+            {
+                "Molecule_ID": "18",
+                "Cluster_ID": 47
+            },
+            {
+                "Molecule_ID": "19",
+                "Cluster_ID": 33
+            },
+            {
+                "Molecule_ID": "20",
+                "Cluster_ID": 33
+            },
+            {
+                "Molecule_ID": "21",
+                "Cluster_ID": 33
+            },
+            {
+                "Molecule_ID": "22",
+                "Cluster_ID": 75
+            },
+            {
+                "Molecule_ID": "23",
+                "Cluster_ID": 51
+            },
+            {
+                "Molecule_ID": "24",
+                "Cluster_ID": 69
+            },
+            {
+                "Molecule_ID": "25",
+                "Cluster_ID": 45
+            },
+            {
+                "Molecule_ID": "26",
+                "Cluster_ID": 65
+            },
+            {
+                "Molecule_ID": "27",
+                "Cluster_ID": 65
+            },
+            {
+                "Molecule_ID": "28",
+                "Cluster_ID": 24
+            },
+            {
+                "Molecule_ID": "29",
+                "Cluster_ID": 45
+            },
+            {
+                "Molecule_ID": "30",
+                "Cluster_ID": 90
+            },
+            {
+                "Molecule_ID": "31",
+                "Cluster_ID": 90
+            },
+            {
+                "Molecule_ID": "32",
+                "Cluster_ID": 90
+            },
+            {
+                "Molecule_ID": "33",
+                "Cluster_ID": 77
+            },
+            {
+                "Molecule_ID": "34",
+                "Cluster_ID": 69
+            },
+            {
+                "Molecule_ID": "35",
+                "Cluster_ID": 51
+            },
+            {
+                "Molecule_ID": "36",
+                "Cluster_ID": 36
+            },
+            {
+                "Molecule_ID": "37",
+                "Cluster_ID": 24
+            },
+            {
+                "Molecule_ID": "38",
+                "Cluster_ID": 36
+            },
+            {
+                "Molecule_ID": "39",
+                "Cluster_ID": 69
+            },
+            {
+                "Molecule_ID": "40",
+                "Cluster_ID": 69
+            },
+            {
+                "Molecule_ID": "41",
+                "Cluster_ID": 88
+            },
+            {
+                "Molecule_ID": "42",
+                "Cluster_ID": 91
+            },
+            {
+                "Molecule_ID": "43",
+                "Cluster_ID": 39
+            },
+            {
+                "Molecule_ID": "44",
+                "Cluster_ID": 65
+            },
+            {
+                "Molecule_ID": "45",
+                "Cluster_ID": 6
+            },
+            {
+                "Molecule_ID": "46",
+                "Cluster_ID": 76
+            },
+            {
+                "Molecule_ID": "47",
+                "Cluster_ID": 76
+            },
+            {
+                "Molecule_ID": "48",
+                "Cluster_ID": 76
+            },
+            {
+                "Molecule_ID": "49",
+                "Cluster_ID": 45
+            },
+            {
+                "Molecule_ID": "50",
+                "Cluster_ID": 45
+            },
+            {
+                "Molecule_ID": "51",
+                "Cluster_ID": 43
+            },
+            {
+                "Molecule_ID": "52",
+                "Cluster_ID": 28
+            },
+            {
+                "Molecule_ID": "53",
+                "Cluster_ID": 27
+            },
+            {
+                "Molecule_ID": "54",
+                "Cluster_ID": 31
+            },
+            {
+                "Molecule_ID": "55",
+                "Cluster_ID": 31
+            },
+            {
+                "Molecule_ID": "56",
+                "Cluster_ID": 31
+            },
+            {
+                "Molecule_ID": "57",
+                "Cluster_ID": 16
+            },
+            {
+                "Molecule_ID": "58",
+                "Cluster_ID": 31
+            },
+            {
+                "Molecule_ID": "59",
+                "Cluster_ID": 31
+            },
+            {
+                "Molecule_ID": "60",
+                "Cluster_ID": 22
+            },
+            {
+                "Molecule_ID": "61",
+                "Cluster_ID": 22
+            },
+            {
+                "Molecule_ID": "62",
+                "Cluster_ID": 84
+            },
+            {
+                "Molecule_ID": "63",
+                "Cluster_ID": 22
+            },
+            {
+                "Molecule_ID": "64",
+                "Cluster_ID": 41
+            },
+            {
+                "Molecule_ID": "65",
+                "Cluster_ID": 2
+            },
+            {
+                "Molecule_ID": "66",
+                "Cluster_ID": 62
+            },
+            {
+                "Molecule_ID": "67",
+                "Cluster_ID": 36
+            },
+            {
+                "Molecule_ID": "68",
+                "Cluster_ID": 81
+            },
+            {
+                "Molecule_ID": "69",
+                "Cluster_ID": 81
+            },
+            {
+                "Molecule_ID": "70",
+                "Cluster_ID": 81
+            },
+            {
+                "Molecule_ID": "71",
+                "Cluster_ID": 2
+            },
+            {
+                "Molecule_ID": "72",
+                "Cluster_ID": 2
+            },
+            {
+                "Molecule_ID": "73",
+                "Cluster_ID": 2
+            },
+            {
+                "Molecule_ID": "74",
+                "Cluster_ID": 2
+            },
+            {
+                "Molecule_ID": "75",
+                "Cluster_ID": 44
+            },
+            {
+                "Molecule_ID": "76",
+                "Cluster_ID": 2
+            },
+            {
+                "Molecule_ID": "77",
+                "Cluster_ID": 2
+            },
+            {
+                "Molecule_ID": "78",
+                "Cluster_ID": 2
+            },
+            {
+                "Molecule_ID": "79",
+                "Cluster_ID": 2
+            },
+            {
+                "Molecule_ID": "80",
+                "Cluster_ID": 2
+            },
+            {
+                "Molecule_ID": "81",
+                "Cluster_ID": 2
+            },
+            {
+                "Molecule_ID": "82",
+                "Cluster_ID": 2
+            },
+            {
+                "Molecule_ID": "83",
+                "Cluster_ID": 2
+            },
+            {
+                "Molecule_ID": "84",
+                "Cluster_ID": 2
+            },
+            {
+                "Molecule_ID": "85",
+                "Cluster_ID": 2
+            },
+            {
+                "Molecule_ID": "86",
+                "Cluster_ID": 2
+            },
+            {
+                "Molecule_ID": "87",
+                "Cluster_ID": 2
+            },
+            {
+                "Molecule_ID": "88",
+                "Cluster_ID": 2
+            },
+            {
+                "Molecule_ID": "89",
+                "Cluster_ID": 2
+            },
+            {
+                "Molecule_ID": "90",
+                "Cluster_ID": 44
+            },
+            {
+                "Molecule_ID": "91",
+                "Cluster_ID": 55
+            },
+            {
+                "Molecule_ID": "92",
+                "Cluster_ID": 79
+            },
+            {
+                "Molecule_ID": "93",
+                "Cluster_ID": 79
+            },
+            {
+                "Molecule_ID": "94",
+                "Cluster_ID": 79
+            },
+            {
+                "Molecule_ID": "95",
+                "Cluster_ID": 79
+            },
+            {
+                "Molecule_ID": "96",
+                "Cluster_ID": 76
+            },
+            {
+                "Molecule_ID": "97",
+                "Cluster_ID": 76
+            },
+            {
+                "Molecule_ID": "98",
+                "Cluster_ID": 76
+            },
+            {
+                "Molecule_ID": "99",
+                "Cluster_ID": 76
+            },
+            {
+                "Molecule_ID": "100",
+                "Cluster_ID": 6
+            },
+            {
+                "Molecule_ID": "101",
+                "Cluster_ID": 6
+            },
+            {
+                "Molecule_ID": "102",
+                "Cluster_ID": 12
+            },
+            {
+                "Molecule_ID": "103",
+                "Cluster_ID": 10
+            },
+            {
+                "Molecule_ID": "104",
+                "Cluster_ID": 31
+            },
+            {
+                "Molecule_ID": "105",
+                "Cluster_ID": 49
+            },
+            {
+                "Molecule_ID": "106",
+                "Cluster_ID": 23
+            },
+            {
+                "Molecule_ID": "107",
+                "Cluster_ID": 31
+            },
+            {
+                "Molecule_ID": "108",
+                "Cluster_ID": 59
+            },
+            {
+                "Molecule_ID": "109",
+                "Cluster_ID": 76
+            },
+            {
+                "Molecule_ID": "110",
+                "Cluster_ID": 54
+            },
+            {
+                "Molecule_ID": "111",
+                "Cluster_ID": 34
+            },
+            {
+                "Molecule_ID": "112",
+                "Cluster_ID": 55
+            },
+            {
+                "Molecule_ID": "113",
+                "Cluster_ID": 29
+            },
+            {
+                "Molecule_ID": "114",
+                "Cluster_ID": 23
+            },
+            {
+                "Molecule_ID": "115",
+                "Cluster_ID": 76
+            },
+            {
+                "Molecule_ID": "116",
+                "Cluster_ID": 66
+            },
+            {
+                "Molecule_ID": "117",
+                "Cluster_ID": 38
+            },
+            {
+                "Molecule_ID": "118",
+                "Cluster_ID": 31
+            },
+            {
+                "Molecule_ID": "119",
+                "Cluster_ID": 47
+            },
+            {
+                "Molecule_ID": "120",
+                "Cluster_ID": 15
+            },
+            {
+                "Molecule_ID": "121",
+                "Cluster_ID": 10
+            },
+            {
+                "Molecule_ID": "122",
+                "Cluster_ID": 44
+            },
+            {
+                "Molecule_ID": "123",
+                "Cluster_ID": 48
+            },
+            {
+                "Molecule_ID": "124",
+                "Cluster_ID": 63
+            },
+            {
+                "Molecule_ID": "125",
+                "Cluster_ID": 85
+            },
+            {
+                "Molecule_ID": "126",
+                "Cluster_ID": 70
+            },
+            {
+                "Molecule_ID": "127",
+                "Cluster_ID": 94
+            },
+            {
+                "Molecule_ID": "128",
+                "Cluster_ID": 21
+            },
+            {
+                "Molecule_ID": "129",
+                "Cluster_ID": 76
+            },
+            {
+                "Molecule_ID": "130",
+                "Cluster_ID": 87
+            },
+            {
+                "Molecule_ID": "131",
+                "Cluster_ID": 72
+            },
+            {
+                "Molecule_ID": "132",
+                "Cluster_ID": 84
+            },
+            {
+                "Molecule_ID": "133",
+                "Cluster_ID": 59
+            },
+            {
+                "Molecule_ID": "134",
+                "Cluster_ID": 33
+            },
+            {
+                "Molecule_ID": "135",
+                "Cluster_ID": 68
+            },
+            {
+                "Molecule_ID": "136",
+                "Cluster_ID": 15
+            },
+            {
+                "Molecule_ID": "137",
+                "Cluster_ID": 81
+            },
+            {
+                "Molecule_ID": "138",
+                "Cluster_ID": 33
+            },
+            {
+                "Molecule_ID": "139",
+                "Cluster_ID": 47
+            },
+            {
+                "Molecule_ID": "140",
+                "Cluster_ID": 20
+            },
+            {
+                "Molecule_ID": "141",
+                "Cluster_ID": 20
+            },
+            {
+                "Molecule_ID": "142",
+                "Cluster_ID": 43
+            },
+            {
+                "Molecule_ID": "143",
+                "Cluster_ID": 8
+            },
+            {
+                "Molecule_ID": "144",
+                "Cluster_ID": 20
+            },
+            {
+                "Molecule_ID": "145",
+                "Cluster_ID": 59
+            },
+            {
+                "Molecule_ID": "146",
+                "Cluster_ID": 19
+            },
+            {
+                "Molecule_ID": "147",
+                "Cluster_ID": 62
+            },
+            {
+                "Molecule_ID": "148",
+                "Cluster_ID": 33
+            },
+            {
+                "Molecule_ID": "149",
+                "Cluster_ID": 37
+            },
+            {
+                "Molecule_ID": "150",
+                "Cluster_ID": 56
+            },
+            {
+                "Molecule_ID": "151",
+                "Cluster_ID": 94
+            },
+            {
+                "Molecule_ID": "152",
+                "Cluster_ID": 44
+            },
+            {
+                "Molecule_ID": "153",
+                "Cluster_ID": 22
+            },
+            {
+                "Molecule_ID": "154",
+                "Cluster_ID": 62
+            },
+            {
+                "Molecule_ID": "155",
+                "Cluster_ID": 23
+            },
+            {
+                "Molecule_ID": "156",
+                "Cluster_ID": 62
+            },
+            {
+                "Molecule_ID": "157",
+                "Cluster_ID": 15
+            },
+            {
+                "Molecule_ID": "158",
+                "Cluster_ID": 23
+            },
+            {
+                "Molecule_ID": "159",
+                "Cluster_ID": 20
+            },
+            {
+                "Molecule_ID": "160",
+                "Cluster_ID": 20
+            },
+            {
+                "Molecule_ID": "161",
+                "Cluster_ID": 19
+            },
+            {
+                "Molecule_ID": "162",
+                "Cluster_ID": 10
+            },
+            {
+                "Molecule_ID": "163",
+                "Cluster_ID": 38
+            },
+            {
+                "Molecule_ID": "164",
+                "Cluster_ID": 22
+            },
+            {
+                "Molecule_ID": "165",
+                "Cluster_ID": 19
+            },
+            {
+                "Molecule_ID": "166",
+                "Cluster_ID": 44
+            },
+            {
+                "Molecule_ID": "167",
+                "Cluster_ID": 94
+            },
+            {
+                "Molecule_ID": "168",
+                "Cluster_ID": 70
+            },
+            {
+                "Molecule_ID": "169",
+                "Cluster_ID": 47
+            },
+            {
+                "Molecule_ID": "170",
+                "Cluster_ID": 15
+            },
+            {
+                "Molecule_ID": "171",
+                "Cluster_ID": 57
+            },
+            {
+                "Molecule_ID": "172",
+                "Cluster_ID": 67
+            },
+            {
+                "Molecule_ID": "173",
+                "Cluster_ID": 22
+            },
+            {
+                "Molecule_ID": "174",
+                "Cluster_ID": 33
+            },
+            {
+                "Molecule_ID": "175",
+                "Cluster_ID": 15
+            },
+            {
+                "Molecule_ID": "176",
+                "Cluster_ID": 10
+            },
+            {
+                "Molecule_ID": "177",
+                "Cluster_ID": 9
+            },
+            {
+                "Molecule_ID": "178",
+                "Cluster_ID": 89
+            },
+            {
+                "Molecule_ID": "179",
+                "Cluster_ID": 87
+            },
+            {
+                "Molecule_ID": "180",
+                "Cluster_ID": 23
+            },
+            {
+                "Molecule_ID": "181",
+                "Cluster_ID": 94
+            },
+            {
+                "Molecule_ID": "182",
+                "Cluster_ID": 20
+            },
+            {
+                "Molecule_ID": "183",
+                "Cluster_ID": 47
+            },
+            {
+                "Molecule_ID": "184",
+                "Cluster_ID": 23
+            },
+            {
+                "Molecule_ID": "185",
+                "Cluster_ID": 84
+            },
+            {
+                "Molecule_ID": "186",
+                "Cluster_ID": 87
+            },
+            {
+                "Molecule_ID": "187",
+                "Cluster_ID": 33
+            },
+            {
+                "Molecule_ID": "188",
+                "Cluster_ID": 16
+            },
+            {
+                "Molecule_ID": "189",
+                "Cluster_ID": 33
+            },
+            {
+                "Molecule_ID": "190",
+                "Cluster_ID": 23
+            },
+            {
+                "Molecule_ID": "191",
+                "Cluster_ID": 72
+            },
+            {
+                "Molecule_ID": "192",
+                "Cluster_ID": 23
+            },
+            {
+                "Molecule_ID": "193",
+                "Cluster_ID": 34
+            },
+            {
+                "Molecule_ID": "194",
+                "Cluster_ID": 54
+            },
+            {
+                "Molecule_ID": "195",
+                "Cluster_ID": 38
+            },
+            {
+                "Molecule_ID": "196",
+                "Cluster_ID": 22
+            },
+            {
+                "Molecule_ID": "197",
+                "Cluster_ID": 47
+            },
+            {
+                "Molecule_ID": "198",
+                "Cluster_ID": 76
+            },
+            {
+                "Molecule_ID": "199",
+                "Cluster_ID": 45
+            },
+            {
+                "Molecule_ID": "200",
+                "Cluster_ID": 63
+            },
+            {
+                "Molecule_ID": "201",
+                "Cluster_ID": 72
+            },
+            {
+                "Molecule_ID": "202",
+                "Cluster_ID": 0
+            },
+            {
+                "Molecule_ID": "203",
+                "Cluster_ID": 2
+            },
+            {
+                "Molecule_ID": "204",
+                "Cluster_ID": 26
+            },
+            {
+                "Molecule_ID": "205",
+                "Cluster_ID": 19
+            },
+            {
+                "Molecule_ID": "206",
+                "Cluster_ID": 76
+            },
+            {
+                "Molecule_ID": "207",
+                "Cluster_ID": 78
+            },
+            {
+                "Molecule_ID": "208",
+                "Cluster_ID": 14
+            },
+            {
+                "Molecule_ID": "209",
+                "Cluster_ID": 78
+            },
+            {
+                "Molecule_ID": "210",
+                "Cluster_ID": 27
+            },
+            {
+                "Molecule_ID": "211",
+                "Cluster_ID": 84
+            },
+            {
+                "Molecule_ID": "212",
+                "Cluster_ID": 76
+            },
+            {
+                "Molecule_ID": "213",
+                "Cluster_ID": 9
+            },
+            {
+                "Molecule_ID": "214",
+                "Cluster_ID": 0
+            },
+            {
+                "Molecule_ID": "215",
+                "Cluster_ID": 14
+            },
+            {
+                "Molecule_ID": "216",
+                "Cluster_ID": 14
+            },
+            {
+                "Molecule_ID": "217",
+                "Cluster_ID": 0
+            },
+            {
+                "Molecule_ID": "218",
+                "Cluster_ID": 0
+            },
+            {
+                "Molecule_ID": "219",
+                "Cluster_ID": 49
+            },
+            {
+                "Molecule_ID": "220",
+                "Cluster_ID": 27
+            },
+            {
+                "Molecule_ID": "221",
+                "Cluster_ID": 0
+            },
+            {
+                "Molecule_ID": "222",
+                "Cluster_ID": 0
+            },
+            {
+                "Molecule_ID": "223",
+                "Cluster_ID": 0
+            },
+            {
+                "Molecule_ID": "224",
+                "Cluster_ID": 47
+            },
+            {
+                "Molecule_ID": "225",
+                "Cluster_ID": 84
+            },
+            {
+                "Molecule_ID": "226",
+                "Cluster_ID": 76
+            },
+            {
+                "Molecule_ID": "227",
+                "Cluster_ID": 76
+            },
+            {
+                "Molecule_ID": "228",
+                "Cluster_ID": 33
+            },
+            {
+                "Molecule_ID": "229",
+                "Cluster_ID": 96
+            },
+            {
+                "Molecule_ID": "230",
+                "Cluster_ID": 14
+            },
+            {
+                "Molecule_ID": "231",
+                "Cluster_ID": 0
+            },
+            {
+                "Molecule_ID": "232",
+                "Cluster_ID": 96
+            },
+            {
+                "Molecule_ID": "233",
+                "Cluster_ID": 76
+            },
+            {
+                "Molecule_ID": "234",
+                "Cluster_ID": 33
+            },
+            {
+                "Molecule_ID": "235",
+                "Cluster_ID": 76
+            },
+            {
+                "Molecule_ID": "236",
+                "Cluster_ID": 76
+            },
+            {
+                "Molecule_ID": "237",
+                "Cluster_ID": 0
+            },
+            {
+                "Molecule_ID": "238",
+                "Cluster_ID": 96
+            },
+            {
+                "Molecule_ID": "239",
+                "Cluster_ID": 0
+            },
+            {
+                "Molecule_ID": "240",
+                "Cluster_ID": 13
+            },
+            {
+                "Molecule_ID": "241",
+                "Cluster_ID": 76
+            },
+            {
+                "Molecule_ID": "242",
+                "Cluster_ID": 84
+            },
+            {
+                "Molecule_ID": "243",
+                "Cluster_ID": 81
+            },
+            {
+                "Molecule_ID": "244",
+                "Cluster_ID": 13
+            },
+            {
+                "Molecule_ID": "245",
+                "Cluster_ID": 46
+            },
+            {
+                "Molecule_ID": "246",
+                "Cluster_ID": 0
+            },
+            {
+                "Molecule_ID": "247",
+                "Cluster_ID": 13
+            },
+            {
+                "Molecule_ID": "248",
+                "Cluster_ID": 9
+            },
+            {
+                "Molecule_ID": "249",
+                "Cluster_ID": 10
+            },
+            {
+                "Molecule_ID": "250",
+                "Cluster_ID": 0
+            },
+            {
+                "Molecule_ID": "251",
+                "Cluster_ID": 81
+            },
+            {
+                "Molecule_ID": "252",
+                "Cluster_ID": 76
+            },
+            {
+                "Molecule_ID": "253",
+                "Cluster_ID": 54
+            },
+            {
+                "Molecule_ID": "254",
+                "Cluster_ID": 78
+            },
+            {
+                "Molecule_ID": "255",
+                "Cluster_ID": 78
+            },
+            {
+                "Molecule_ID": "256",
+                "Cluster_ID": 76
+            },
+            {
+                "Molecule_ID": "257",
+                "Cluster_ID": 14
+            },
+            {
+                "Molecule_ID": "258",
+                "Cluster_ID": 0
+            },
+            {
+                "Molecule_ID": "259",
+                "Cluster_ID": 47
+            },
+            {
+                "Molecule_ID": "260",
+                "Cluster_ID": 0
+            },
+            {
+                "Molecule_ID": "261",
+                "Cluster_ID": 81
+            },
+            {
+                "Molecule_ID": "262",
+                "Cluster_ID": 81
+            },
+            {
+                "Molecule_ID": "263",
+                "Cluster_ID": 27
+            },
+            {
+                "Molecule_ID": "264",
+                "Cluster_ID": 49
+            },
+            {
+                "Molecule_ID": "265",
+                "Cluster_ID": 0
+            },
+            {
+                "Molecule_ID": "266",
+                "Cluster_ID": 40
+            },
+            {
+                "Molecule_ID": "267",
+                "Cluster_ID": 53
+            },
+            {
+                "Molecule_ID": "268",
+                "Cluster_ID": 42
+            },
+            {
+                "Molecule_ID": "269",
+                "Cluster_ID": 13
+            },
+            {
+                "Molecule_ID": "270",
+                "Cluster_ID": 53
+            },
+            {
+                "Molecule_ID": "271",
+                "Cluster_ID": 64
+            },
+            {
+                "Molecule_ID": "272",
+                "Cluster_ID": 26
+            },
+            {
+                "Molecule_ID": "273",
+                "Cluster_ID": 53
+            },
+            {
+                "Molecule_ID": "274",
+                "Cluster_ID": 6
+            },
+            {
+                "Molecule_ID": "275",
+                "Cluster_ID": 13
+            },
+            {
+                "Molecule_ID": "276",
+                "Cluster_ID": 40
+            },
+            {
+                "Molecule_ID": "277",
+                "Cluster_ID": 40
+            },
+            {
+                "Molecule_ID": "278",
+                "Cluster_ID": 58
+            },
+            {
+                "Molecule_ID": "279",
+                "Cluster_ID": 7
+            },
+            {
+                "Molecule_ID": "280",
+                "Cluster_ID": 7
+            },
+            {
+                "Molecule_ID": "281",
+                "Cluster_ID": 26
+            },
+            {
+                "Molecule_ID": "282",
+                "Cluster_ID": 64
+            },
+            {
+                "Molecule_ID": "283",
+                "Cluster_ID": 7
+            },
+            {
+                "Molecule_ID": "284",
+                "Cluster_ID": 26
+            },
+            {
+                "Molecule_ID": "285",
+                "Cluster_ID": 26
+            },
+            {
+                "Molecule_ID": "286",
+                "Cluster_ID": 11
+            },
+            {
+                "Molecule_ID": "287",
+                "Cluster_ID": 13
+            },
+            {
+                "Molecule_ID": "288",
+                "Cluster_ID": 13
+            },
+            {
+                "Molecule_ID": "289",
+                "Cluster_ID": 53
+            },
+            {
+                "Molecule_ID": "290",
+                "Cluster_ID": 70
+            },
+            {
+                "Molecule_ID": "291",
+                "Cluster_ID": 11
+            },
+            {
+                "Molecule_ID": "292",
+                "Cluster_ID": 7
+            },
+            {
+                "Molecule_ID": "293",
+                "Cluster_ID": 19
+            },
+            {
+                "Molecule_ID": "294",
+                "Cluster_ID": 42
+            },
+            {
+                "Molecule_ID": "295",
+                "Cluster_ID": 15
+            },
+            {
+                "Molecule_ID": "296",
+                "Cluster_ID": 40
+            },
+            {
+                "Molecule_ID": "297",
+                "Cluster_ID": 26
+            },
+            {
+                "Molecule_ID": "298",
+                "Cluster_ID": 22
+            },
+            {
+                "Molecule_ID": "299",
+                "Cluster_ID": 53
+            },
+            {
+                "Molecule_ID": "300",
+                "Cluster_ID": 18
+            },
+            {
+                "Molecule_ID": "301",
+                "Cluster_ID": 43
+            },
+            {
+                "Molecule_ID": "302",
+                "Cluster_ID": 68
+            },
+            {
+                "Molecule_ID": "303",
+                "Cluster_ID": 68
+            },
+            {
+                "Molecule_ID": "304",
+                "Cluster_ID": 53
+            },
+            {
+                "Molecule_ID": "305",
+                "Cluster_ID": 61
+            },
+            {
+                "Molecule_ID": "306",
+                "Cluster_ID": 22
+            },
+            {
+                "Molecule_ID": "307",
+                "Cluster_ID": 68
+            },
+            {
+                "Molecule_ID": "308",
+                "Cluster_ID": 15
+            },
+            {
+                "Molecule_ID": "309",
+                "Cluster_ID": 68
+            },
+            {
+                "Molecule_ID": "310",
+                "Cluster_ID": 26
+            },
+            {
+                "Molecule_ID": "311",
+                "Cluster_ID": 40
+            },
+            {
+                "Molecule_ID": "312",
+                "Cluster_ID": 53
+            },
+            {
+                "Molecule_ID": "313",
+                "Cluster_ID": 19
+            },
+            {
+                "Molecule_ID": "314",
+                "Cluster_ID": 40
+            },
+            {
+                "Molecule_ID": "315",
+                "Cluster_ID": 53
+            },
+            {
+                "Molecule_ID": "316",
+                "Cluster_ID": 13
+            },
+            {
+                "Molecule_ID": "317",
+                "Cluster_ID": 7
+            },
+            {
+                "Molecule_ID": "318",
+                "Cluster_ID": 64
+            },
+            {
+                "Molecule_ID": "319",
+                "Cluster_ID": 7
+            },
+            {
+                "Molecule_ID": "320",
+                "Cluster_ID": 13
+            },
+            {
+                "Molecule_ID": "321",
+                "Cluster_ID": 40
+            },
+            {
+                "Molecule_ID": "322",
+                "Cluster_ID": 6
+            },
+            {
+                "Molecule_ID": "323",
+                "Cluster_ID": 43
+            },
+            {
+                "Molecule_ID": "324",
+                "Cluster_ID": 7
+            },
+            {
+                "Molecule_ID": "325",
+                "Cluster_ID": 13
+            },
+            {
+                "Molecule_ID": "326",
+                "Cluster_ID": 42
+            },
+            {
+                "Molecule_ID": "327",
+                "Cluster_ID": 7
+            },
+            {
+                "Molecule_ID": "328",
+                "Cluster_ID": 64
+            },
+            {
+                "Molecule_ID": "329",
+                "Cluster_ID": 68
+            },
+            {
+                "Molecule_ID": "330",
+                "Cluster_ID": 40
+            },
+            {
+                "Molecule_ID": "331",
+                "Cluster_ID": 27
+            },
+            {
+                "Molecule_ID": "332",
+                "Cluster_ID": 26
+            },
+            {
+                "Molecule_ID": "333",
+                "Cluster_ID": 7
+            },
+            {
+                "Molecule_ID": "334",
+                "Cluster_ID": 26
+            },
+            {
+                "Molecule_ID": "335",
+                "Cluster_ID": 11
+            },
+            {
+                "Molecule_ID": "336",
+                "Cluster_ID": 7
+            },
+            {
+                "Molecule_ID": "337",
+                "Cluster_ID": 40
+            },
+            {
+                "Molecule_ID": "338",
+                "Cluster_ID": 40
+            },
+            {
+                "Molecule_ID": "339",
+                "Cluster_ID": 7
+            },
+            {
+                "Molecule_ID": "340",
+                "Cluster_ID": 11
+            },
+            {
+                "Molecule_ID": "341",
+                "Cluster_ID": 68
+            },
+            {
+                "Molecule_ID": "342",
+                "Cluster_ID": 7
+            },
+            {
+                "Molecule_ID": "343",
+                "Cluster_ID": 13
+            },
+            {
+                "Molecule_ID": "344",
+                "Cluster_ID": 7
+            },
+            {
+                "Molecule_ID": "345",
+                "Cluster_ID": 13
+            },
+            {
+                "Molecule_ID": "346",
+                "Cluster_ID": 40
+            },
+            {
+                "Molecule_ID": "347",
+                "Cluster_ID": 26
+            },
+            {
+                "Molecule_ID": "348",
+                "Cluster_ID": 40
+            },
+            {
+                "Molecule_ID": "349",
+                "Cluster_ID": 64
+            },
+            {
+                "Molecule_ID": "350",
+                "Cluster_ID": 15
+            },
+            {
+                "Molecule_ID": "351",
+                "Cluster_ID": 94
+            },
+            {
+                "Molecule_ID": "352",
+                "Cluster_ID": 13
+            },
+            {
+                "Molecule_ID": "353",
+                "Cluster_ID": 64
+            },
+            {
+                "Molecule_ID": "354",
+                "Cluster_ID": 61
+            },
+            {
+                "Molecule_ID": "355",
+                "Cluster_ID": 40
+            },
+            {
+                "Molecule_ID": "356",
+                "Cluster_ID": 62
+            },
+            {
+                "Molecule_ID": "357",
+                "Cluster_ID": 7
+            },
+            {
+                "Molecule_ID": "358",
+                "Cluster_ID": 27
+            },
+            {
+                "Molecule_ID": "359",
+                "Cluster_ID": 40
+            },
+            {
+                "Molecule_ID": "360",
+                "Cluster_ID": 40
+            },
+            {
+                "Molecule_ID": "361",
+                "Cluster_ID": 26
+            },
+            {
+                "Molecule_ID": "362",
+                "Cluster_ID": 26
+            },
+            {
+                "Molecule_ID": "363",
+                "Cluster_ID": 18
+            },
+            {
+                "Molecule_ID": "364",
+                "Cluster_ID": 26
+            },
+            {
+                "Molecule_ID": "365",
+                "Cluster_ID": 26
+            },
+            {
+                "Molecule_ID": "366",
+                "Cluster_ID": 26
+            },
+            {
+                "Molecule_ID": "367",
+                "Cluster_ID": 40
+            },
+            {
+                "Molecule_ID": "368",
+                "Cluster_ID": 26
+            },
+            {
+                "Molecule_ID": "369",
+                "Cluster_ID": 11
+            },
+            {
+                "Molecule_ID": "370",
+                "Cluster_ID": 26
+            },
+            {
+                "Molecule_ID": "371",
+                "Cluster_ID": 61
+            },
+            {
+                "Molecule_ID": "372",
+                "Cluster_ID": 26
+            },
+            {
+                "Molecule_ID": "373",
+                "Cluster_ID": 40
+            },
+            {
+                "Molecule_ID": "374",
+                "Cluster_ID": 64
+            },
+            {
+                "Molecule_ID": "375",
+                "Cluster_ID": 26
+            },
+            {
+                "Molecule_ID": "376",
+                "Cluster_ID": 13
+            },
+            {
+                "Molecule_ID": "377",
+                "Cluster_ID": 26
+            },
+            {
+                "Molecule_ID": "378",
+                "Cluster_ID": 13
+            },
+            {
+                "Molecule_ID": "379",
+                "Cluster_ID": 13
+            },
+            {
+                "Molecule_ID": "380",
+                "Cluster_ID": 58
+            },
+            {
+                "Molecule_ID": "381",
+                "Cluster_ID": 39
+            },
+            {
+                "Molecule_ID": "382",
+                "Cluster_ID": 7
+            },
+            {
+                "Molecule_ID": "383",
+                "Cluster_ID": 26
+            },
+            {
+                "Molecule_ID": "384",
+                "Cluster_ID": 58
+            },
+            {
+                "Molecule_ID": "385",
+                "Cluster_ID": 11
+            },
+            {
+                "Molecule_ID": "386",
+                "Cluster_ID": 7
+            },
+            {
+                "Molecule_ID": "387",
+                "Cluster_ID": 15
+            },
+            {
+                "Molecule_ID": "388",
+                "Cluster_ID": 58
+            },
+            {
+                "Molecule_ID": "389",
+                "Cluster_ID": 7
+            },
+            {
+                "Molecule_ID": "390",
+                "Cluster_ID": 53
+            },
+            {
+                "Molecule_ID": "391",
+                "Cluster_ID": 61
+            },
+            {
+                "Molecule_ID": "392",
+                "Cluster_ID": 6
+            },
+            {
+                "Molecule_ID": "393",
+                "Cluster_ID": 38
+            },
+            {
+                "Molecule_ID": "394",
+                "Cluster_ID": 34
+            },
+            {
+                "Molecule_ID": "395",
+                "Cluster_ID": 89
+            },
+            {
+                "Molecule_ID": "396",
+                "Cluster_ID": 80
+            },
+            {
+                "Molecule_ID": "397",
+                "Cluster_ID": 45
+            },
+            {
+                "Molecule_ID": "398",
+                "Cluster_ID": 89
+            },
+            {
+                "Molecule_ID": "399",
+                "Cluster_ID": 82
+            },
+            {
+                "Molecule_ID": "400",
+                "Cluster_ID": 80
+            },
+            {
+                "Molecule_ID": "401",
+                "Cluster_ID": 80
+            },
+            {
+                "Molecule_ID": "402",
+                "Cluster_ID": 93
+            },
+            {
+                "Molecule_ID": "403",
+                "Cluster_ID": 4
+            },
+            {
+                "Molecule_ID": "404",
+                "Cluster_ID": 69
+            },
+            {
+                "Molecule_ID": "405",
+                "Cluster_ID": 48
+            },
+            {
+                "Molecule_ID": "406",
+                "Cluster_ID": 80
+            },
+            {
+                "Molecule_ID": "407",
+                "Cluster_ID": 51
+            },
+            {
+                "Molecule_ID": "408",
+                "Cluster_ID": 48
+            },
+            {
+                "Molecule_ID": "409",
+                "Cluster_ID": 89
+            },
+            {
+                "Molecule_ID": "410",
+                "Cluster_ID": 95
+            },
+            {
+                "Molecule_ID": "411",
+                "Cluster_ID": 39
+            },
+            {
+                "Molecule_ID": "412",
+                "Cluster_ID": 4
+            },
+            {
+                "Molecule_ID": "413",
+                "Cluster_ID": 33
+            },
+            {
+                "Molecule_ID": "414",
+                "Cluster_ID": 4
+            },
+            {
+                "Molecule_ID": "415",
+                "Cluster_ID": 73
+            },
+            {
+                "Molecule_ID": "416",
+                "Cluster_ID": 82
+            },
+            {
+                "Molecule_ID": "417",
+                "Cluster_ID": 32
+            },
+            {
+                "Molecule_ID": "418",
+                "Cluster_ID": 4
+            },
+            {
+                "Molecule_ID": "419",
+                "Cluster_ID": 73
+            },
+            {
+                "Molecule_ID": "420",
+                "Cluster_ID": 93
+            },
+            {
+                "Molecule_ID": "421",
+                "Cluster_ID": 8
+            },
+            {
+                "Molecule_ID": "422",
+                "Cluster_ID": 82
+            },
+            {
+                "Molecule_ID": "423",
+                "Cluster_ID": 39
+            },
+            {
+                "Molecule_ID": "424",
+                "Cluster_ID": 41
+            },
+            {
+                "Molecule_ID": "425",
+                "Cluster_ID": 77
+            },
+            {
+                "Molecule_ID": "426",
+                "Cluster_ID": 74
+            },
+            {
+                "Molecule_ID": "427",
+                "Cluster_ID": 93
+            },
+            {
+                "Molecule_ID": "428",
+                "Cluster_ID": 74
+            },
+            {
+                "Molecule_ID": "429",
+                "Cluster_ID": 5
+            },
+            {
+                "Molecule_ID": "430",
+                "Cluster_ID": 66
+            },
+            {
+                "Molecule_ID": "431",
+                "Cluster_ID": 82
+            },
+            {
+                "Molecule_ID": "432",
+                "Cluster_ID": 93
+            },
+            {
+                "Molecule_ID": "433",
+                "Cluster_ID": 45
+            },
+            {
+                "Molecule_ID": "434",
+                "Cluster_ID": 69
+            },
+            {
+                "Molecule_ID": "435",
+                "Cluster_ID": 5
+            },
+            {
+                "Molecule_ID": "436",
+                "Cluster_ID": 48
+            },
+            {
+                "Molecule_ID": "437",
+                "Cluster_ID": 41
+            },
+            {
+                "Molecule_ID": "438",
+                "Cluster_ID": 45
+            },
+            {
+                "Molecule_ID": "439",
+                "Cluster_ID": 25
+            },
+            {
+                "Molecule_ID": "440",
+                "Cluster_ID": 5
+            },
+            {
+                "Molecule_ID": "441",
+                "Cluster_ID": 85
+            },
+            {
+                "Molecule_ID": "442",
+                "Cluster_ID": 41
+            },
+            {
+                "Molecule_ID": "443",
+                "Cluster_ID": 5
+            },
+            {
+                "Molecule_ID": "444",
+                "Cluster_ID": 8
+            },
+            {
+                "Molecule_ID": "445",
+                "Cluster_ID": 5
+            },
+            {
+                "Molecule_ID": "446",
+                "Cluster_ID": 35
+            },
+            {
+                "Molecule_ID": "447",
+                "Cluster_ID": 25
+            },
+            {
+                "Molecule_ID": "448",
+                "Cluster_ID": 41
+            },
+            {
+                "Molecule_ID": "449",
+                "Cluster_ID": 77
+            },
+            {
+                "Molecule_ID": "450",
+                "Cluster_ID": 95
+            },
+            {
+                "Molecule_ID": "451",
+                "Cluster_ID": 63
+            },
+            {
+                "Molecule_ID": "452",
+                "Cluster_ID": 34
+            },
+            {
+                "Molecule_ID": "453",
+                "Cluster_ID": 45
+            },
+            {
+                "Molecule_ID": "454",
+                "Cluster_ID": 75
+            },
+            {
+                "Molecule_ID": "455",
+                "Cluster_ID": 60
+            },
+            {
+                "Molecule_ID": "456",
+                "Cluster_ID": 77
+            },
+            {
+                "Molecule_ID": "457",
+                "Cluster_ID": 5
+            },
+            {
+                "Molecule_ID": "458",
+                "Cluster_ID": 8
+            },
+            {
+                "Molecule_ID": "459",
+                "Cluster_ID": 89
+            },
+            {
+                "Molecule_ID": "460",
+                "Cluster_ID": 75
+            },
+            {
+                "Molecule_ID": "461",
+                "Cluster_ID": 5
+            },
+            {
+                "Molecule_ID": "462",
+                "Cluster_ID": 5
+            },
+            {
+                "Molecule_ID": "463",
+                "Cluster_ID": 34
+            },
+            {
+                "Molecule_ID": "464",
+                "Cluster_ID": 82
+            },
+            {
+                "Molecule_ID": "465",
+                "Cluster_ID": 65
+            },
+            {
+                "Molecule_ID": "466",
+                "Cluster_ID": 89
+            },
+            {
+                "Molecule_ID": "467",
+                "Cluster_ID": 45
+            },
+            {
+                "Molecule_ID": "468",
+                "Cluster_ID": 5
+            },
+            {
+                "Molecule_ID": "469",
+                "Cluster_ID": 32
+            },
+            {
+                "Molecule_ID": "470",
+                "Cluster_ID": 3
+            },
+            {
+                "Molecule_ID": "471",
+                "Cluster_ID": 73
+            },
+            {
+                "Molecule_ID": "472",
+                "Cluster_ID": 41
+            },
+            {
+                "Molecule_ID": "473",
+                "Cluster_ID": 32
+            },
+            {
+                "Molecule_ID": "474",
+                "Cluster_ID": 34
+            },
+            {
+                "Molecule_ID": "475",
+                "Cluster_ID": 4
+            },
+            {
+                "Molecule_ID": "476",
+                "Cluster_ID": 88
+            },
+            {
+                "Molecule_ID": "477",
+                "Cluster_ID": 12
+            },
+            {
+                "Molecule_ID": "478",
+                "Cluster_ID": 15
+            },
+            {
+                "Molecule_ID": "479",
+                "Cluster_ID": 73
+            },
+            {
+                "Molecule_ID": "480",
+                "Cluster_ID": 95
+            },
+            {
+                "Molecule_ID": "481",
+                "Cluster_ID": 90
+            },
+            {
+                "Molecule_ID": "482",
+                "Cluster_ID": 45
+            },
+            {
+                "Molecule_ID": "483",
+                "Cluster_ID": 52
+            },
+            {
+                "Molecule_ID": "484",
+                "Cluster_ID": 85
+            },
+            {
+                "Molecule_ID": "485",
+                "Cluster_ID": 80
+            },
+            {
+                "Molecule_ID": "486",
+                "Cluster_ID": 9
+            },
+            {
+                "Molecule_ID": "487",
+                "Cluster_ID": 95
+            },
+            {
+                "Molecule_ID": "488",
+                "Cluster_ID": 52
+            },
+            {
+                "Molecule_ID": "489",
+                "Cluster_ID": 76
+            },
+            {
+                "Molecule_ID": "490",
+                "Cluster_ID": 89
+            },
+            {
+                "Molecule_ID": "491",
+                "Cluster_ID": 76
+            },
+            {
+                "Molecule_ID": "492",
+                "Cluster_ID": 73
+            },
+            {
+                "Molecule_ID": "493",
+                "Cluster_ID": 45
+            },
+            {
+                "Molecule_ID": "494",
+                "Cluster_ID": 45
+            },
+            {
+                "Molecule_ID": "495",
+                "Cluster_ID": 45
+            },
+            {
+                "Molecule_ID": "496",
+                "Cluster_ID": 89
+            },
+            {
+                "Molecule_ID": "497",
+                "Cluster_ID": 45
+            },
+            {
+                "Molecule_ID": "498",
+                "Cluster_ID": 56
+            },
+            {
+                "Molecule_ID": "499",
+                "Cluster_ID": 24
+            },
+            {
+                "Molecule_ID": "500",
+                "Cluster_ID": 45
+            },
+            {
+                "Molecule_ID": "501",
+                "Cluster_ID": 91
+            },
+            {
+                "Molecule_ID": "502",
+                "Cluster_ID": 69
+            },
+            {
+                "Molecule_ID": "503",
+                "Cluster_ID": 45
+            },
+            {
+                "Molecule_ID": "504",
+                "Cluster_ID": 60
+            },
+            {
+                "Molecule_ID": "505",
+                "Cluster_ID": 90
+            },
+            {
+                "Molecule_ID": "506",
+                "Cluster_ID": 45
+            },
+            {
+                "Molecule_ID": "507",
+                "Cluster_ID": 51
+            },
+            {
+                "Molecule_ID": "508",
+                "Cluster_ID": 95
+            },
+            {
+                "Molecule_ID": "509",
+                "Cluster_ID": 56
+            },
+            {
+                "Molecule_ID": "510",
+                "Cluster_ID": 91
+            },
+            {
+                "Molecule_ID": "511",
+                "Cluster_ID": 6
+            },
+            {
+                "Molecule_ID": "512",
+                "Cluster_ID": 76
+            },
+            {
+                "Molecule_ID": "513",
+                "Cluster_ID": 12
+            },
+            {
+                "Molecule_ID": "514",
+                "Cluster_ID": 80
+            },
+            {
+                "Molecule_ID": "515",
+                "Cluster_ID": 8
+            },
+            {
+                "Molecule_ID": "516",
+                "Cluster_ID": 76
+            },
+            {
+                "Molecule_ID": "517",
+                "Cluster_ID": 56
+            },
+            {
+                "Molecule_ID": "518",
+                "Cluster_ID": 76
+            },
+            {
+                "Molecule_ID": "519",
+                "Cluster_ID": 4
+            },
+            {
+                "Molecule_ID": "520",
+                "Cluster_ID": 35
+            },
+            {
+                "Molecule_ID": "521",
+                "Cluster_ID": 35
+            },
+            {
+                "Molecule_ID": "522",
+                "Cluster_ID": 35
+            },
+            {
+                "Molecule_ID": "523",
+                "Cluster_ID": 26
+            },
+            {
+                "Molecule_ID": "524",
+                "Cluster_ID": 1
+            },
+            {
+                "Molecule_ID": "525",
+                "Cluster_ID": 46
+            },
+            {
+                "Molecule_ID": "526",
+                "Cluster_ID": 38
+            },
+            {
+                "Molecule_ID": "527",
+                "Cluster_ID": 1
+            },
+            {
+                "Molecule_ID": "528",
+                "Cluster_ID": 44
+            },
+            {
+                "Molecule_ID": "529",
+                "Cluster_ID": 29
+            },
+            {
+                "Molecule_ID": "530",
+                "Cluster_ID": 45
+            },
+            {
+                "Molecule_ID": "531",
+                "Cluster_ID": 85
+            },
+            {
+                "Molecule_ID": "532",
+                "Cluster_ID": 22
+            },
+            {
+                "Molecule_ID": "533",
+                "Cluster_ID": 15
+            },
+            {
+                "Molecule_ID": "534",
+                "Cluster_ID": 85
+            },
+            {
+                "Molecule_ID": "535",
+                "Cluster_ID": 29
+            },
+            {
+                "Molecule_ID": "536",
+                "Cluster_ID": 29
+            },
+            {
+                "Molecule_ID": "537",
+                "Cluster_ID": 59
+            },
+            {
+                "Molecule_ID": "538",
+                "Cluster_ID": 29
+            },
+            {
+                "Molecule_ID": "539",
+                "Cluster_ID": 31
+            },
+            {
+                "Molecule_ID": "540",
+                "Cluster_ID": 19
+            },
+            {
+                "Molecule_ID": "541",
+                "Cluster_ID": 9
+            },
+            {
+                "Molecule_ID": "542",
+                "Cluster_ID": 38
+            },
+            {
+                "Molecule_ID": "543",
+                "Cluster_ID": 18
+            },
+            {
+                "Molecule_ID": "544",
+                "Cluster_ID": 68
+            },
+            {
+                "Molecule_ID": "545",
+                "Cluster_ID": 16
+            },
+            {
+                "Molecule_ID": "546",
+                "Cluster_ID": 43
+            },
+            {
+                "Molecule_ID": "547",
+                "Cluster_ID": 67
+            },
+            {
+                "Molecule_ID": "548",
+                "Cluster_ID": 38
+            },
+            {
+                "Molecule_ID": "549",
+                "Cluster_ID": 21
+            },
+            {
+                "Molecule_ID": "550",
+                "Cluster_ID": 21
+            },
+            {
+                "Molecule_ID": "551",
+                "Cluster_ID": 17
+            },
+            {
+                "Molecule_ID": "552",
+                "Cluster_ID": 17
+            },
+            {
+                "Molecule_ID": "553",
+                "Cluster_ID": 21
+            },
+            {
+                "Molecule_ID": "554",
+                "Cluster_ID": 46
+            },
+            {
+                "Molecule_ID": "555",
+                "Cluster_ID": 44
+            },
+            {
+                "Molecule_ID": "556",
+                "Cluster_ID": 22
+            },
+            {
+                "Molecule_ID": "557",
+                "Cluster_ID": 94
+            },
+            {
+                "Molecule_ID": "558",
+                "Cluster_ID": 34
+            },
+            {
+                "Molecule_ID": "559",
+                "Cluster_ID": 54
+            },
+            {
+                "Molecule_ID": "560",
+                "Cluster_ID": 28
+            },
+            {
+                "Molecule_ID": "561",
+                "Cluster_ID": 63
+            },
+            {
+                "Molecule_ID": "562",
+                "Cluster_ID": 49
+            },
+            {
+                "Molecule_ID": "563",
+                "Cluster_ID": 57
+            },
+            {
+                "Molecule_ID": "564",
+                "Cluster_ID": 67
+            },
+            {
+                "Molecule_ID": "565",
+                "Cluster_ID": 62
+            },
+            {
+                "Molecule_ID": "566",
+                "Cluster_ID": 19
+            },
+            {
+                "Molecule_ID": "567",
+                "Cluster_ID": 21
+            },
+            {
+                "Molecule_ID": "568",
+                "Cluster_ID": 81
+            },
+            {
+                "Molecule_ID": "569",
+                "Cluster_ID": 6
+            },
+            {
+                "Molecule_ID": "570",
+                "Cluster_ID": 30
+            },
+            {
+                "Molecule_ID": "571",
+                "Cluster_ID": 81
+            },
+            {
+                "Molecule_ID": "572",
+                "Cluster_ID": 16
+            },
+            {
+                "Molecule_ID": "573",
+                "Cluster_ID": 56
+            },
+            {
+                "Molecule_ID": "574",
+                "Cluster_ID": 33
+            },
+            {
+                "Molecule_ID": "575",
+                "Cluster_ID": 9
+            },
+            {
+                "Molecule_ID": "576",
+                "Cluster_ID": 44
+            },
+            {
+                "Molecule_ID": "577",
+                "Cluster_ID": 83
+            },
+            {
+                "Molecule_ID": "578",
+                "Cluster_ID": 71
+            },
+            {
+                "Molecule_ID": "579",
+                "Cluster_ID": 48
+            },
+            {
+                "Molecule_ID": "580",
+                "Cluster_ID": 22
+            },
+            {
+                "Molecule_ID": "581",
+                "Cluster_ID": 2
+            },
+            {
+                "Molecule_ID": "582",
+                "Cluster_ID": 44
+            },
+            {
+                "Molecule_ID": "583",
+                "Cluster_ID": 33
+            },
+            {
+                "Molecule_ID": "584",
+                "Cluster_ID": 46
+            },
+            {
+                "Molecule_ID": "585",
+                "Cluster_ID": 16
+            },
+            {
+                "Molecule_ID": "586",
+                "Cluster_ID": 44
+            },
+            {
+                "Molecule_ID": "587",
+                "Cluster_ID": 44
+            },
+            {
+                "Molecule_ID": "588",
+                "Cluster_ID": 19
+            },
+            {
+                "Molecule_ID": "589",
+                "Cluster_ID": 19
+            },
+            {
+                "Molecule_ID": "590",
+                "Cluster_ID": 19
+            },
+            {
+                "Molecule_ID": "591",
+                "Cluster_ID": 19
+            },
+            {
+                "Molecule_ID": "592",
+                "Cluster_ID": 17
+            },
+            {
+                "Molecule_ID": "593",
+                "Cluster_ID": 43
+            },
+            {
+                "Molecule_ID": "594",
+                "Cluster_ID": 86
+            },
+            {
+                "Molecule_ID": "595",
+                "Cluster_ID": 30
+            },
+            {
+                "Molecule_ID": "596",
+                "Cluster_ID": 27
+            },
+            {
+                "Molecule_ID": "597",
+                "Cluster_ID": 30
+            },
+            {
+                "Molecule_ID": "598",
+                "Cluster_ID": 30
+            },
+            {
+                "Molecule_ID": "599",
+                "Cluster_ID": 57
+            },
+            {
+                "Molecule_ID": "600",
+                "Cluster_ID": 54
+            },
+            {
+                "Molecule_ID": "601",
+                "Cluster_ID": 26
+            },
+            {
+                "Molecule_ID": "602",
+                "Cluster_ID": 35
+            },
+            {
+                "Molecule_ID": "603",
+                "Cluster_ID": 57
+            },
+            {
+                "Molecule_ID": "604",
+                "Cluster_ID": 48
+            },
+            {
+                "Molecule_ID": "605",
+                "Cluster_ID": 49
+            },
+            {
+                "Molecule_ID": "606",
+                "Cluster_ID": 77
+            },
+            {
+                "Molecule_ID": "607",
+                "Cluster_ID": 60
+            },
+            {
+                "Molecule_ID": "608",
+                "Cluster_ID": 39
+            },
+            {
+                "Molecule_ID": "609",
+                "Cluster_ID": 28
+            },
+            {
+                "Molecule_ID": "610",
+                "Cluster_ID": 28
+            },
+            {
+                "Molecule_ID": "611",
+                "Cluster_ID": 35
+            },
+            {
+                "Molecule_ID": "612",
+                "Cluster_ID": 45
+            },
+            {
+                "Molecule_ID": "613",
+                "Cluster_ID": 37
+            },
+            {
+                "Molecule_ID": "614",
+                "Cluster_ID": 50
+            },
+            {
+                "Molecule_ID": "615",
+                "Cluster_ID": 62
+            },
+            {
+                "Molecule_ID": "616",
+                "Cluster_ID": 1
+            },
+            {
+                "Molecule_ID": "617",
+                "Cluster_ID": 46
+            },
+            {
+                "Molecule_ID": "618",
+                "Cluster_ID": 38
+            },
+            {
+                "Molecule_ID": "619",
+                "Cluster_ID": 1
+            },
+            {
+                "Molecule_ID": "620",
+                "Cluster_ID": 29
+            },
+            {
+                "Molecule_ID": "621",
+                "Cluster_ID": 29
+            },
+            {
+                "Molecule_ID": "622",
+                "Cluster_ID": 81
+            },
+            {
+                "Molecule_ID": "623",
+                "Cluster_ID": 85
+            },
+            {
+                "Molecule_ID": "624",
+                "Cluster_ID": 22
+            },
+            {
+                "Molecule_ID": "625",
+                "Cluster_ID": 38
+            },
+            {
+                "Molecule_ID": "626",
+                "Cluster_ID": 85
+            },
+            {
+                "Molecule_ID": "627",
+                "Cluster_ID": 29
+            },
+            {
+                "Molecule_ID": "628",
+                "Cluster_ID": 29
+            },
+            {
+                "Molecule_ID": "629",
+                "Cluster_ID": 59
+            },
+            {
+                "Molecule_ID": "630",
+                "Cluster_ID": 29
+            },
+            {
+                "Molecule_ID": "631",
+                "Cluster_ID": 31
+            },
+            {
+                "Molecule_ID": "632",
+                "Cluster_ID": 0
+            },
+            {
+                "Molecule_ID": "633",
+                "Cluster_ID": 9
+            },
+            {
+                "Molecule_ID": "634",
+                "Cluster_ID": 26
+            },
+            {
+                "Molecule_ID": "635",
+                "Cluster_ID": 18
+            },
+            {
+                "Molecule_ID": "636",
+                "Cluster_ID": 68
+            },
+            {
+                "Molecule_ID": "637",
+                "Cluster_ID": 16
+            },
+            {
+                "Molecule_ID": "638",
+                "Cluster_ID": 43
+            },
+            {
+                "Molecule_ID": "639",
+                "Cluster_ID": 67
+            },
+            {
+                "Molecule_ID": "640",
+                "Cluster_ID": 38
+            },
+            {
+                "Molecule_ID": "641",
+                "Cluster_ID": 21
+            },
+            {
+                "Molecule_ID": "642",
+                "Cluster_ID": 21
+            },
+            {
+                "Molecule_ID": "643",
+                "Cluster_ID": 17
+            },
+            {
+                "Molecule_ID": "644",
+                "Cluster_ID": 17
+            },
+            {
+                "Molecule_ID": "645",
+                "Cluster_ID": 2
+            },
+            {
+                "Molecule_ID": "646",
+                "Cluster_ID": 46
+            },
+            {
+                "Molecule_ID": "647",
+                "Cluster_ID": 44
+            },
+            {
+                "Molecule_ID": "648",
+                "Cluster_ID": 22
+            },
+            {
+                "Molecule_ID": "649",
+                "Cluster_ID": 94
+            },
+            {
+                "Molecule_ID": "650",
+                "Cluster_ID": 34
+            },
+            {
+                "Molecule_ID": "651",
+                "Cluster_ID": 9
+            },
+            {
+                "Molecule_ID": "652",
+                "Cluster_ID": 28
+            },
+            {
+                "Molecule_ID": "653",
+                "Cluster_ID": 13
+            },
+            {
+                "Molecule_ID": "654",
+                "Cluster_ID": 49
+            },
+            {
+                "Molecule_ID": "655",
+                "Cluster_ID": 57
+            },
+            {
+                "Molecule_ID": "656",
+                "Cluster_ID": 67
+            },
+            {
+                "Molecule_ID": "657",
+                "Cluster_ID": 62
+            },
+            {
+                "Molecule_ID": "658",
+                "Cluster_ID": 19
+            },
+            {
+                "Molecule_ID": "659",
+                "Cluster_ID": 21
+            },
+            {
+                "Molecule_ID": "660",
+                "Cluster_ID": 81
+            },
+            {
+                "Molecule_ID": "661",
+                "Cluster_ID": 6
+            },
+            {
+                "Molecule_ID": "662",
+                "Cluster_ID": 30
+            },
+            {
+                "Molecule_ID": "663",
+                "Cluster_ID": 81
+            },
+            {
+                "Molecule_ID": "664",
+                "Cluster_ID": 16
+            },
+            {
+                "Molecule_ID": "665",
+                "Cluster_ID": 6
+            },
+            {
+                "Molecule_ID": "666",
+                "Cluster_ID": 33
+            },
+            {
+                "Molecule_ID": "667",
+                "Cluster_ID": 96
+            },
+            {
+                "Molecule_ID": "668",
+                "Cluster_ID": 44
+            },
+            {
+                "Molecule_ID": "669",
+                "Cluster_ID": 83
+            },
+            {
+                "Molecule_ID": "670",
+                "Cluster_ID": 71
+            },
+            {
+                "Molecule_ID": "671",
+                "Cluster_ID": 2
+            },
+            {
+                "Molecule_ID": "672",
+                "Cluster_ID": 22
+            },
+            {
+                "Molecule_ID": "673",
+                "Cluster_ID": 2
+            },
+            {
+                "Molecule_ID": "674",
+                "Cluster_ID": 44
+            },
+            {
+                "Molecule_ID": "675",
+                "Cluster_ID": 81
+            },
+            {
+                "Molecule_ID": "676",
+                "Cluster_ID": 46
+            },
+            {
+                "Molecule_ID": "677",
+                "Cluster_ID": 16
+            },
+            {
+                "Molecule_ID": "678",
+                "Cluster_ID": 44
+            },
+            {
+                "Molecule_ID": "679",
+                "Cluster_ID": 44
+            },
+            {
+                "Molecule_ID": "680",
+                "Cluster_ID": 19
+            },
+            {
+                "Molecule_ID": "681",
+                "Cluster_ID": 19
+            },
+            {
+                "Molecule_ID": "682",
+                "Cluster_ID": 19
+            },
+            {
+                "Molecule_ID": "683",
+                "Cluster_ID": 19
+            },
+            {
+                "Molecule_ID": "684",
+                "Cluster_ID": 17
+            },
+            {
+                "Molecule_ID": "685",
+                "Cluster_ID": 94
+            },
+            {
+                "Molecule_ID": "686",
+                "Cluster_ID": 86
+            },
+            {
+                "Molecule_ID": "687",
+                "Cluster_ID": 30
+            },
+            {
+                "Molecule_ID": "688",
+                "Cluster_ID": 27
+            },
+            {
+                "Molecule_ID": "689",
+                "Cluster_ID": 30
+            },
+            {
+                "Molecule_ID": "690",
+                "Cluster_ID": 30
+            },
+            {
+                "Molecule_ID": "691",
+                "Cluster_ID": 13
+            },
+            {
+                "Molecule_ID": "692",
+                "Cluster_ID": 54
+            },
+            {
+                "Molecule_ID": "693",
+                "Cluster_ID": 26
+            },
+            {
+                "Molecule_ID": "694",
+                "Cluster_ID": 35
+            },
+            {
+                "Molecule_ID": "695",
+                "Cluster_ID": 57
+            },
+            {
+                "Molecule_ID": "696",
+                "Cluster_ID": 2
+            },
+            {
+                "Molecule_ID": "697",
+                "Cluster_ID": 49
+            },
+            {
+                "Molecule_ID": "698",
+                "Cluster_ID": 77
+            },
+            {
+                "Molecule_ID": "699",
+                "Cluster_ID": 60
+            },
+            {
+                "Molecule_ID": "700",
+                "Cluster_ID": 39
+            },
+            {
+                "Molecule_ID": "701",
+                "Cluster_ID": 28
+            },
+            {
+                "Molecule_ID": "702",
+                "Cluster_ID": 28
+            },
+            {
+                "Molecule_ID": "703",
+                "Cluster_ID": 35
+            },
+            {
+                "Molecule_ID": "704",
+                "Cluster_ID": 45
+            },
+            {
+                "Molecule_ID": "705",
+                "Cluster_ID": 37
+            },
+            {
+                "Molecule_ID": "706",
+                "Cluster_ID": 50
+            },
+            {
+                "Molecule_ID": "707",
+                "Cluster_ID": 30
+            },
+            {
+                "Molecule_ID": "708",
+                "Cluster_ID": 71
+            },
+            {
+                "Molecule_ID": "709",
+                "Cluster_ID": 26
+            }
+        ]
+    }
+}
