@@ -3,10 +3,19 @@ from sklearn.metrics import silhouette_score
 import numpy as np
 from tqdm import tqdm
 import json
+import os
 
 MIN_K = 2
-FILES_PATH = "SMILES/data"
-FILES = ["[2M+Ca]2+_fp.txt", '[M-3H2O+H]1+_fp.txt', '[M+Ca]2+_fp.txt']
+FP_DIR = "SMILES/data/fingerprints"
+CLUSTER_DIR = "clusters/smiles"
+
+def get_all_files_in_dir(directory):
+    files = []
+    for entry in os.listdir(directory):
+        entry_path = os.path.join(directory, entry)
+        if os.path.isfile(entry_path):
+            files.append(entry_path)
+    return files
 
 def load_fp(filepath):
     fp = []
@@ -26,7 +35,9 @@ def run_clustering(data):
     best_sil = -1
     best_labels = []
     best_k = 2
-    for k in tqdm(range(MIN_K, len(data))):
+    MAX_K = 100 if len(data) > 100 else len(data)
+    
+    for k in tqdm(range(MIN_K, MAX_K)):
         kmeans = KMeans(n_clusters=k, random_state=0, n_init="auto")
         kmeans.fit(data)
         labels = kmeans.predict(data)
@@ -55,9 +66,9 @@ def load_in_file(json_dict, filename):
 
 
 if __name__ == "__main__":
-    for filename in FILES:
-        path = f"{FILES_PATH}/{filename}"
+    FILES = get_all_files_in_dir(FP_DIR)
+    for path in FILES:
         X = load_fp(path)
         best_labels, best_sil, best_k = run_clustering(X)
         json_dict = build_json(best_labels, best_sil, best_k)
-        load_in_file(json_dict, f"{filename[:-4]}_kmean.json")
+        load_in_file(json_dict, f"{CLUSTER_DIR}/{path[25:-7]}_kmean.json")

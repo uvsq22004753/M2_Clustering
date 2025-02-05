@@ -10,6 +10,10 @@ def clean(mgf_path, path_out):
 
 
 if __name__ == "__main__":
-    clean("adducts/[M-3H2O+H]1+.mgf", "[M-3H2O+H]1+_smiles.txt")
-    clean("adducts/[M+Ca]2+.mgf", "[M+Ca]2+_smiles.txt")
-    clean("adducts/[2M+Ca]2+.mgf", "[2M+Ca]2+_smiles.txt")
+    clean("adducts/[M-3H2O+H]1+.mgf", "SMILES/data/smiles/[M-3H2O+H]1+_smiles.txt")
+    clean("adducts/[M+Ca]2+.mgf", "SMILES/data/smiles/[M+Ca]2+_smiles.txt")
+    clean("adducts/[2M+Ca]2+.mgf", "SMILES/data/smiles/[2M+Ca]2+_smiles.txt")
+    clean("adducts/[2M+H]1+.mgf", "SMILES/data/smiles/[2M+H]1+_smiles.txt")
+    clean("adducts/[2M+NH3+H]1+.mgf", "SMILES/data/smiles/[2M+NH3+H]1+_smiles.txt")
+    clean("adducts/[M-H2O+H]1+.mgf", "SMILES/data/smiles/[M-H2O+H]1+_smiles.txt")
+    clean("adducts/[M+2H]2+.mgf", "SMILES/data/smiles/[M+2H]2+_smiles.txt") 

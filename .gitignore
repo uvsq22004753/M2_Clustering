@@ -164,3 +164,4 @@ gen
 # Big files
 ALL_GNPS_cleaned.mgf
 adducts/*
+clusters/*

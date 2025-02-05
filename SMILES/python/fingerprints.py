@@ -4,6 +4,19 @@ import numpy as np
 from sklearn.metrics.pairwise import cosine_distances
 from smiles_utils import readfile_without_cn
 from tqdm import tqdm
+import os
+
+SMILES_DIR = "SMILES/data/smiles"
+FP_DIR = "SMILES/data/fingerprints"
+
+
+def get_all_files_in_dir(directory):
+    files = []
+    for entry in os.listdir(directory):
+        entry_path = os.path.join(directory, entry)
+        if os.path.isfile(entry_path):
+            files.append(entry_path)
+    return files
 
 def fingerprint(SMILES, fp_type, fp_size=2048):
     """
@@ -125,6 +138,6 @@ def write_all_fingerprints(filename, smiles_name):
             file.write("\n")
 
 if __name__ == "__main__":
-    write_all_fingerprints("SMILES/data/[2M+Ca]2+_fp.txt", "SMILES/data/[2M+Ca]2+_smiles.txt")
-    write_all_fingerprints("SMILES/data/[M-3H2O+H]1+_fp.txt", "SMILES/data/[M-3H2O+H]1+_smiles.txt")
-    write_all_fingerprints("SMILES/data/[M+Ca]2+_fp.txt", "SMILES/data/[M+Ca]2+_smiles.txt")
+    SMILES_PATHS = get_all_files_in_dir(SMILES_DIR)
+    for smilesPath in SMILES_PATHS:
+        write_all_fingerprints(f"{FP_DIR}/{smilesPath[19:-11]}_fp.txt", smilesPath)
