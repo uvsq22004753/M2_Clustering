@@ -4,9 +4,8 @@
 #include <math.h>
 #include "cJSON.h"
 
-#define MAX_FINGERPRINTS 33668
+#define MAX_FINGERPRINTS 30
 #define MAX_LENGTH 2050
-#define K 10
 #define ITER_LIM 1000
 
 // Function to calculate Jaccard distance
@@ -153,7 +152,14 @@ void free_matrix(double **matrix, int rows) {
     free(matrix);
 }
 
-cJSON* create_json(int **clusters){
+void free_matrix_int(int **matrix, int rows) {
+    for (int i = 0; i < rows; i++) {
+        free(matrix[i]);
+    }
+    free(matrix);
+}
+
+cJSON* create_json(int **clusters, int K){
     cJSON *root = cJSON_CreateObject();
     char name[20];
     if (!root) {
@@ -176,7 +182,24 @@ cJSON* create_json(int **clusters){
     return root;
 }
 
-void init_centroid(double **centroid, char *fingerprints[]){
+cJSON* create_json_silhouette(double *sil, int size){
+    cJSON *root = cJSON_CreateObject();
+    if (!root) {
+        perror("Failed to create JSON object");
+    }
+    cJSON *silhouettes = NULL;
+    silhouettes = cJSON_CreateArray();
+    if (!silhouettes) {
+        perror("Failed to create JSON array");
+    }
+    cJSON_AddItemToObject(root, "silhouettes", silhouettes);
+    for (int i=0; i<size; i++){
+        cJSON_AddItemToArray(silhouettes, cJSON_CreateNumber(sil[i]));
+    }
+    return root;
+}
+
+void init_centroid(double **centroid, char *fingerprints[], int K){
     int i_rand = 0;
     int current = 0;
     for (int i=0; i<K; i++){
@@ -188,7 +211,7 @@ void init_centroid(double **centroid, char *fingerprints[]){
     }
 }
 
-void init_clusters(int **clusters){
+void init_clusters(int **clusters, int K){
     int rand_K = 0;
     for (int i=0; i<MAX_FINGERPRINTS; i++){
         rand_K = rand() % K;
@@ -196,7 +219,7 @@ void init_clusters(int **clusters){
     }
 }
 
-int find_cluster(int **clusters, int index){
+int find_cluster(int **clusters, int index, int K){
     for (int i=0; i<K; i++){
         if (clusters[i][index] == 1){
             return i;
@@ -213,7 +236,7 @@ void update_curr_centroid(double *curr_centroid, char *fp){
     }
 }
 
-void update_centroid(double **centroid, int **clusters, char *fingerprints[]){
+void update_centroid(double **centroid, int **clusters, char *fingerprints[], int K){
     double *curr_centroid = (double *)malloc((MAX_LENGTH-2) * sizeof(double));;
     int count = 0;
     for (int i=0; i<K; i++){
@@ -232,13 +255,13 @@ void update_centroid(double **centroid, int **clusters, char *fingerprints[]){
     free(curr_centroid);
 }
 
-int **k_mean_clustering(char *fingerprints[]){
+int **k_mean_clustering(char *fingerprints[], int K){
 
     int **clusters = create_matrix(K, MAX_FINGERPRINTS);
     double **centroid = create_matrix_double(K, MAX_LENGTH-2);
 
-    init_centroid(centroid, fingerprints);
-    init_clusters(clusters);
+    init_centroid(centroid, fingerprints, K);
+    init_clusters(clusters, K);
 
     int change = 1;
     int count = 0;
@@ -249,10 +272,10 @@ int **k_mean_clustering(char *fingerprints[]){
         count++;
         change = 0;
         count_change = 0;
-        
+
         for (int i=0; i<K; i++){
             for (int j=0; j<MAX_FINGERPRINTS; j++){
-                num_cluster = find_cluster(clusters, j);
+                num_cluster = find_cluster(clusters, j, K);
                 if (num_cluster != -1){
                     if (num_cluster != i){
                         if (cosine_distance_centroid(fingerprints[j], centroid[i]) < cosine_distance_centroid(fingerprints[j], centroid[num_cluster])){
@@ -268,13 +291,76 @@ int **k_mean_clustering(char *fingerprints[]){
                 }
             }
         }
-        update_centroid(centroid, clusters, fingerprints);
+        update_centroid(centroid, clusters, fingerprints, K);
         printf("Iteration #%d\n", count);
         printf("%d changements\n", count_change);
     }
     free_matrix(centroid, K);
 
     return clusters;
+}
+
+double mean_dist_within_cluster(char *fingerprint, int *cluster, char *fingerprints[]){
+    double dist = 0;
+    int count = 0;
+    for (int i=0; i<MAX_FINGERPRINTS; i++){
+        if (cluster[i] == 1){
+            dist += cosine_distance(fingerprint, fingerprints[i]);
+            count++;
+        }
+    }
+    if (count == 1){
+        return 0.0;
+    }
+    return dist / (count-1) ;    
+}
+
+double mean_dist_with_closest_cluster(char *fingerprint, int **clusters, char *fingerprints[], int num_cluster, int K){
+    double dist = 0;
+    double curr_dist = 0;
+    int count = 0;
+    for (int i=0; i<K; i++){
+        if (i != num_cluster){
+            for (int j=0; j<MAX_FINGERPRINTS; j++){
+                if (clusters[i][j] == 1){
+                    curr_dist += cosine_distance(fingerprint, fingerprints[j]);
+                    count++;
+                }
+            }
+            curr_dist /= count;
+            if (curr_dist < dist || dist == 0){
+                dist = curr_dist;
+            }
+        }
+        curr_dist = 0;
+        count = 0;
+    }
+    return dist ;  
+}
+
+double max(double a, double b) {
+    return (a > b) ? a : b;
+}
+
+double compute_silhouette(int **clusters, char *fingerprints[], int K){
+    int num_cluster = 0;
+    double curr_a = 0;
+    double curr_b = 0;
+    double mean_silhouette = 0;
+    for (int i = 0; i<MAX_FINGERPRINTS; i++){
+        num_cluster = find_cluster(clusters, i, K);
+        curr_a = mean_dist_within_cluster(fingerprints[i], clusters[num_cluster], fingerprints);
+        curr_b = mean_dist_with_closest_cluster(fingerprints[i], clusters, fingerprints, num_cluster, K);
+        
+        mean_silhouette += (curr_b - curr_a) / max(curr_a, curr_b);
+
+        /* if (i % (int)(MAX_FINGERPRINTS / 100) == 0){
+            printf("Silhouette computing %d%%\n", i / (int)(MAX_FINGERPRINTS / 100));
+            printf("Valeur de mean_silhouette : %f\n", mean_silhouette);
+        } */
+    }
+
+    return mean_silhouette / MAX_FINGERPRINTS;
 }
 
 // Main pour caculer la matrice de similarité
@@ -298,7 +384,7 @@ int _main_simil() {
     fclose(file);
 
      // Open the output file for writing
-    FILE *output_file = fopen("../data/matrix/matrix_CL.txt", "w");
+    FILE *output_file = fopen("../data/matrix/matrix_fingerprint_cos.txt", "w");
     if (!output_file) {
         perror("Failed to open output file");
         return EXIT_FAILURE;
@@ -309,10 +395,10 @@ int _main_simil() {
             printf("Progress: %d%%\n", i / (MAX_FINGERPRINTS / 100));
         }
         for (int j = i + 1; j < count - 1; j++) {
-            int distance = CLS(fingerprints[i], fingerprints[j]);
+            int distance = cosine_distance(fingerprints[i], fingerprints[j]);
             fprintf(output_file, "%d,", distance);
         }
-        int distance = CLS(fingerprints[i], fingerprints[count - 1]);
+        int distance = cosine_distance(fingerprints[i], fingerprints[count - 1]);
         fprintf(output_file, "%d\n", distance);
     }
 
@@ -324,16 +410,16 @@ int _main_simil() {
     return EXIT_SUCCESS;
 }
 
-// Main pour faire un clustering k-mean
-int _main_k_mean(){
-
-    FILE *file = fopen("../data/smiles_without_cn.txt", "r");
+char **load_fingerprints(char filepath[]){
+    FILE *file = fopen(filepath, "r");
     if (!file) {
         perror("Failed to open input file");
-        return EXIT_FAILURE;
     }
 
-    char *fingerprints[MAX_FINGERPRINTS];
+    char **fingerprints = (char **)malloc(MAX_FINGERPRINTS * sizeof(char *));
+    for (int i = 0; i<MAX_FINGERPRINTS; i++){
+        fingerprints[i] = (char *)malloc(MAX_LENGTH * sizeof(char));
+    }
     char buffer[MAX_LENGTH];
     int count = 0;
 
@@ -344,31 +430,84 @@ int _main_k_mean(){
         count++;
     }
     fclose(file);
+    return fingerprints;
+}
 
-    int **clusters = k_mean_clustering(fingerprints);
-    cJSON *results = create_json(clusters);
-    free_matrix((double **)clusters, K);
+// Main pour faire un clustering k-mean
+double _main_k_mean(int K, char **fingerprints){
+
+    printf("Début du clustering\n");
+    int **clusters = k_mean_clustering(fingerprints, K);
+
+    double silhouette = compute_silhouette(clusters, fingerprints, K);
+    printf("Silhouette pour K=%d : %f\n", K, silhouette);
+
+    cJSON *results = create_json(clusters, K);
+    printf("Tag 1\n");
 
     char *json_string = cJSON_Print(results);
-    cJSON_Delete(results);
+    printf("Tag 2\n");
 
-      // Open the output file for writing
-    FILE *output_file = fopen("../data/json/kmean_cosineFP.json", "w");
+    // Open the output file for writing
+    char name[40];
+    sprintf(name, "../data/json/kmean_cosineFP_K%d.json", K);
+    FILE *output_file = fopen(name, "w");
     if (!output_file) {
         perror("Failed to open output file");
         return EXIT_FAILURE;
     }
 
+    printf("Tag3\n");
+    cJSON_Delete(results);
+
+    printf("Tag 4\n");
+    free_matrix_int(clusters, K);
+
+    printf("Tag 5\n");
     fprintf(output_file, "%s\n", json_string);
+    free(json_string);
+
+    printf("Tag 6\n");
     fclose(output_file);
 
-    return 0;
+    printf("Tag 7\n");
+    return silhouette;
+}
+
+void find_best_k(int MAX_K, char **fingerprints){
+    double *sil = (double *)malloc(MAX_K * sizeof(double));
+
+    for (int i = 2; i<MAX_K+1; i++){
+        sil[i] = _main_k_mean(i, fingerprints);
+    }
+
+    cJSON *results_sil = create_json_silhouette(sil, MAX_K);
+    char *json_string = cJSON_Print(results_sil);
+    FILE *output_file = fopen("../data/json/silhouettes.json", "w");
+    if (!output_file) {
+        perror("Failed to open output file");
+    }
+
+    fprintf(output_file, "%s\n", json_string);
+    fclose(output_file);
+    free(sil);
+}
+
+void free_fingerprints(char **fingerprints, int count){
+    for (int i = 0; i < count; i++) {
+        free(fingerprints[i]);
+    }
+    free(fingerprints);
 }
 
 int main(){
     //int i = _main_simil();
-    printf("Début du clustering\n");
-    int i = _main_k_mean();
-    printf("Fin du clustering\n");
-    return i;
+    //int i = _main_k_mean();
+    char fp_1[] = "../data/[2M+Ca]2+_fp.txt";
+    char fp_2[] = "../data/[M-3H2O+H]1+_fp.txt";
+    char fp_3[] = "../data/[M+Ca]2+_fp.txt";
+    char **fingerprints = load_fingerprints(fp_1);
+    find_best_k(17, fingerprints);
+    free_fingerprints(fingerprints, MAX_FINGERPRINTS);
+    return 0;
 }

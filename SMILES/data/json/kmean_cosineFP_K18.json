@@ -1,0 +1,20 @@
+{
+	"cluster0":	[0, 8, 11, 12, 13, 18, 26, 29],
+	"cluster1":	[7, 14],
+	"cluster2":	[17, 24],
+	"cluster3":	[27],
+	"cluster4":	[1, 2, 4, 23],
+	"cluster5":	[5],
+	"cluster6":	[20],
+	"cluster7":	[6],
+	"cluster8":	[10, 21],
+	"cluster9":	[9, 19, 22, 25],
+	"cluster10":	[],
+	"cluster11":	[],
+	"cluster12":	[3],
+	"cluster13":	[28],
+	"cluster14":	[],
+	"cluster15":	[],
+	"cluster16":	[15, 16],
+	"cluster17":	[]
+}

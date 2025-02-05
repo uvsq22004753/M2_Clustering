@@ -124,4 +124,7 @@ def write_all_fingerprints(filename, smiles_name):
             file.write(f"{fp[-1]}")
             file.write("\n")
 
-write_all_fingerprints("morgan_fingerprints.txt", "SMILES/data/smiles_without_cn.txt")
+if __name__ == "__main__":
+    write_all_fingerprints("SMILES/data/[2M+Ca]2+_fp.txt", "SMILES/data/[2M+Ca]2+_smiles.txt")
+    write_all_fingerprints("SMILES/data/[M-3H2O+H]1+_fp.txt", "SMILES/data/[M-3H2O+H]1+_smiles.txt")
+    write_all_fingerprints("SMILES/data/[M+Ca]2+_fp.txt", "SMILES/data/[M+Ca]2+_smiles.txt")

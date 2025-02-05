@@ -160,3 +160,7 @@ a.out
 *.gen.c
 *.gen.h
 gen
+
+# Big files
+ALL_GNPS_cleaned.mgf
+adducts/*
