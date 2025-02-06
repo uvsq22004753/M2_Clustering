@@ -1,6 +1,0 @@
-*C=C(*)C(Nc1c([N+](=O)[O-])c(*)c(C*)c(C*)c1[N+](=O)[O-])C(*)C*
-*CC(*)Nc1nc(=S)nc(NC(C)(C)C*)[nH]1
-*CC(*)Nc1nc(Cl)nc(NC(C)(C)C*)n1
-*CC(*)Nc1nc(Cl)nc(NC(C*)C*)n1
-*CC(C)N(C(=O)C(*)Oc1nnc(C(F)(F)F)s1)c1ccc(F)c(*)c1*
-*CC(C)c1ccc(NC(=O)N(C)C*)c(*)c1

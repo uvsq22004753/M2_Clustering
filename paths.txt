@@ -1,2 +1,0 @@
-/Users/mac/Documents/AMIS/M2_Clustering/adducts/[M-3H2O+H]1+.mgf
-/Users/mac/Documents/AMIS/M2_Clustering/adducts/[M+Ca]2+.mgf
