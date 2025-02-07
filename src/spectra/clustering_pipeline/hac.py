@@ -66,11 +66,12 @@ def run_hac_pipeline(mgf_file: str, bin_size: float, n_clusters: int,
     # 4. Exécuter le clustering HAC sur la matrice de distance
     labels = run_hac(distance_matrix, n_clusters=n_clusters)
     
-    # 5. Recharger les spectres depuis le fichier binned pour obtenir la liste (IDs = index + 1)
+    # 5. Recharger les spectres depuis le fichier binned
     spectra_list = list(load_from_mgf(binned_file))
     results = []
-    for i in range(len(spectra_list)):
-        results.append({"id": i + 1, "cluster": int(labels[i])})
+    for i, spec in enumerate(spectra_list):
+        spec_id = spec.metadata.get("id")
+        results.append({"id": spec_id, "cluster": int(labels[i])})
     
     # 6. Préparer les paramètres et générer un hash
     params = {

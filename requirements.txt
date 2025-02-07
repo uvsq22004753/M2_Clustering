@@ -3,3 +3,4 @@ pyteomics
 matchms
 scikit-learn
 tqdm
+hdbscan

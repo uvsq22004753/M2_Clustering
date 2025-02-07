@@ -38,7 +38,7 @@ def run_clustering_pipeline(smiles_file: str, fp_size: int, k_min: int, k_max: i
       5. Génération d'un hash basé sur les paramètres.
       6. Sauvegarde des résultats dans un fichier JSON dans output/clustering_results/kmeans/smiles.
     
-    Pour chaque molécule, l'ID correspond au numéro de ligne dans le fichier de SMILES, commençant à 1.
+    Pour chaque molécule, l'ID correspond au numéro de ligne dans le fichier de SMILES, commençant à 0.
     
     Retourne:
       - Le chemin complet du fichier JSON généré.
@@ -48,10 +48,10 @@ def run_clustering_pipeline(smiles_file: str, fp_size: int, k_min: int, k_max: i
     best_k, scores = select_best_k(X_norm, k_min, k_max, n_init, random_state, algorithm, n_jobs)
     labels, centers, silhouette = run_kmeans(X_norm, best_k, n_init, random_state, algorithm)
     
-    # Pour chaque SMILES, l'ID est son index + 1
+    # Pour chaque SMILES, l'ID est son index
     results = []
     for i in range(len(smiles_list)):
-        results.append({"id": i + 1, "cluster": int(labels[i])})
+        results.append({"id": i, "cluster": int(labels[i])})
     
     params = {
         "smiles_file": smiles_file,

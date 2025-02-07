@@ -14,6 +14,7 @@ setup(
         "matchms",
         "scikit-learn",
         "tqdm",
+        "hdbscan"
     ],
     entry_points={
         "console_scripts": [

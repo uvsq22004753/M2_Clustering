@@ -11,6 +11,8 @@ Commandes disponibles :
   kmeans_smiles      Pipeline de clustering kmeans pour SMILES.
   hac_spectra        Pipeline de clustering HAC pour spectres (fichier MGF).
   hac_smiles         Pipeline de clustering HAC pour SMILES.
+  hdbscan_spectra    Pipeline de clustering HDBSCAN pour spectres (fichier MGF).
+
 
 Exemples :
   spectra_analyser process --mgf_file data/ALL_GNPS_cleaned.mgf --output_dir data/adducts --stats file --log-level INFO
@@ -18,6 +20,8 @@ Exemples :
   spectra_analyser kmeans_smiles --smiles_file data/adducts/smiles/[M-3H2O+H]1+.smiles --fp_size 2048 --k_min 2 --k_max 10 --algorithm mini --n_init 10 --random_state 42 --n_jobs -1 --log-level INFO
   spectra_analyser hac_spectra --mgf_file data/adducts/spectra/[M-3H2O+H]1+.mgf --bin_size 5 --n_clusters 4 --mz_min 20 --mz_max 2000 --tol 0.1 --dist_method cosine_greedy --num_workers -1 --log-level INFO
   spectra_analyser hac_smiles --smiles_file data/adducts/smiles/[M-3H2O+H]1+.smiles --fp_size 2048 --n_clusters 4 --sim_type cosinus --log-level INFO
+  spectra_analyser hdbscan_spectra --mgf_file data/adducts/spectra/[M-3H2O+H]1+.mgf --bin_size 5 --n_clusters 4 --min_samples 2 --mz_min 20 --mz_max 2000 --tol 0.1 --dist_method cosine_greedy --num_workers -1 --log-level INFO
+
 """
 
 import argparse
@@ -28,6 +32,7 @@ from spectra.clustering_pipeline import kmeans as spectra_kmeans
 from spectra.clustering_pipeline import hac as spectra_hac
 from smiles.clustering_pipeline import kmeans as smiles_kmeans
 from smiles.clustering_pipeline import hac as smiles_hac
+from smiles.clustering_pipeline import hdbscan as smiles_hdbscan
 
 __all__ = ["main"]
 
@@ -139,6 +144,49 @@ def main():
                                    default="jaccard",
                                    help="Type de similarité pour SMILES (défaut: jaccard)")
     
+    # Commande 'hdbscan_spectra'
+    parser_hdbscan_spec = subparsers.add_parser("hdbscan_spectra",
+                                                help="Pipeline de clustering HDBSCAN pour spectres (fichier MGF)",
+                                                parents=[parent_parser])
+    parser_hdbscan_spec.add_argument("--mgf_file", type=str, required=True,
+                                     help="Fichier MGF de spectres à traiter.")
+    parser_hdbscan_spec.add_argument("--bin_size", type=float, required=True,
+                                     help="Taille du bin pour le binning.")
+    parser_hdbscan_spec.add_argument("--n_clusters", type=int, required=True,
+                                     help="Nombre de clusters à former (utilisé comme min_cluster_size).")
+    parser_hdbscan_spec.add_argument("--min_samples", type=int, required=True,
+                                     help="Nombre minimum d'échantillons pour HDBSCAN.")
+    parser_hdbscan_spec.add_argument("--mz_min", type=float, default=20,
+                                     help="Valeur minimale de m/z (défaut: 20)")
+    parser_hdbscan_spec.add_argument("--mz_max", type=float, default=2000,
+                                     help="Valeur maximale de m/z (défaut: 2000)")
+    parser_hdbscan_spec.add_argument("--tol", type=float, default=0.1,
+                                     help="Tolérance pour le calcul de la matrice de distance (défaut: 0.1)")
+    parser_hdbscan_spec.add_argument("--num_workers", type=int, default=-1,
+                                     help="Nombre de workers pour le calcul parallèle (défaut: -1)")
+    parser_hdbscan_spec.add_argument("--dist_method", type=str,
+                                     choices=["cosinus", "manhattan", "simple", "cosine_greedy"],
+                                     default="cosinus",
+                                     help="Méthode de calcul de distance pour les spectres (défaut: cosinus)")
+    
+    # Commande 'hdbscan_smiles'
+    parser_hdbscan_smiles = subparsers.add_parser("hdbscan_smiles",
+                                                  help="Pipeline de clustering HDBSCAN pour SMILES",
+                                                  parents=[parent_parser])
+    parser_hdbscan_smiles.add_argument("--smiles_file", type=str, required=True,
+                                      help="Fichier texte contenant des SMILES (un par ligne).")
+    parser_hdbscan_smiles.add_argument("--fp_size", type=int, default=2048,
+                                      help="Taille du fingerprint Morgan (défaut: 2048)")
+    parser_hdbscan_smiles.add_argument("--n_clusters", type=int, required=True,
+                                      help="Nombre de clusters à former (utilisé comme min_cluster_size).")
+    parser_hdbscan_smiles.add_argument("--min_samples", type=int, default=1,
+                                      help="Nombre minimum d'échantillons pour HDBSCAN (défaut: 1)")
+    parser_hdbscan_smiles.add_argument("--sim_type", type=str,
+                                      choices=["cosinus", "jaccard"],
+                                      default="jaccard",
+                                      help="Type de similarité pour SMILES (défaut: jaccard)")
+        
+    
     args = parser.parse_args()
     
     numeric_level = getattr(logging, args.log_level.upper(), logging.INFO)
@@ -192,6 +240,28 @@ def main():
             k_clusters=args.n_clusters,
             sim_type=args.sim_type
         )
+    elif args.command == "hdbscan_spectra":
+        num_workers = args.num_workers if args.num_workers != -1 else None
+        from spectra.clustering_pipeline import hdbscan as spectra_hdbscan
+        spectra_hdbscan.run_hdbscan_pipeline(
+            mgf_file=args.mgf_file,
+            bin_size=args.bin_size,
+            n_clusters=args.n_clusters,
+            min_samples=args.min_samples,
+            mz_min=args.mz_min,
+            mz_max=args.mz_max,
+            tol=args.tol,
+            num_workers=num_workers,
+            dist_method=args.dist_method
+        )
+    elif args.command == "hdbscan_smiles":
+      smiles_hdbscan.run_hdbscan_pipeline_smiles(
+          smiles_file=args.smiles_file,
+          fp_size=args.fp_size,
+          min_cluster_size=args.n_clusters,
+          min_samples=args.min_samples,
+          sim_type=args.sim_type
+      )
     else:
         parser.print_help()
 

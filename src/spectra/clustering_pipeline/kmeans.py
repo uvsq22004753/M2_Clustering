@@ -53,10 +53,10 @@ def run_clustering_pipeline(mgf_file, bin_size, k_min, k_max, n_init=10, random_
     best_k, scores = select_best_k(X_norm, k_min, k_max, n_init, random_state, algorithm, n_jobs)
     labels, centers, silhouette = run_kmeans(X_norm, best_k, n_init, random_state, algorithm)
     
-    # Construction des résultats (vous pouvez personnaliser l'ID en utilisant des métadonnées si disponibles)
+    # Construction des résultats
     results = []
     for i, spec in enumerate(spectra_list):
-        spec_id = spec.get("params", {}).get("id", i)
+        spec_id = spec.metadata.get("id")
         results.append({"id": spec_id, "cluster": int(labels[i])})
     
     params = {

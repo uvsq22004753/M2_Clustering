@@ -29,7 +29,7 @@ def run_hac_pipeline_smiles(smiles_file: str,
              • "jaccard" → similarity_jaccard
       2. Convertit la matrice de similarité en matrice de distance (distance = 1 - similarité).
       3. Applique le clustering HAC sur la matrice de distance.
-      4. Génère les résultats en attribuant à chaque molécule un ID égal à son index + 1.
+      4. Génère les résultats en attribuant à chaque molécule un ID égal à son index.
       5. Génère un hash (à partir des paramètres, en excluant les données variables) et sauvegarde
          les résultats dans un fichier JSON dans le dossier :
          output/clustering_results/hac/smiles/<base_name>_fp<fp_size>/
@@ -65,9 +65,9 @@ def run_hac_pipeline_smiles(smiles_file: str,
     # 3. Exécution du clustering HAC sur la matrice de distance
     labels = run_hac(distance_matrix, n_clusters=k_clusters)
     
-    # 4. Génération des résultats (ID = index + 1)
+    # 4. Génération des résultats (ID = index)
     smiles_list = read_smiles_file(smiles_file)
-    results = [{"id": i + 1, "cluster": int(labels[i])} for i in range(len(smiles_list))]
+    results = [{"id": i, "cluster": int(labels[i])} for i in range(len(smiles_list))]
     
     # 5. Préparation des paramètres et génération du hash
     params = {
