@@ -29,6 +29,7 @@ def load_mgf_file(file: str) -> list:
     Retourne:
       - list: La liste des spectra chargés.
     """
+    logging.getLogger("matchms").setLevel(logging.ERROR)
     return list(load_from_mgf(file))
 
 
