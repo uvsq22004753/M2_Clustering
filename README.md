@@ -19,7 +19,7 @@ Plusieurs librairies Python sont nécessaires :
 
 * **Pyteomics** permet de lire et écrire des fichiers au format MGF :scroll:.
 
-* **matchms** offre divers outils liés aux spectres de masse :atom:.
+* **matchms** offre divers outils liés aux spectres de masse et à la génération de fingerprints de SMILES :atom:.
 
 * **scikit-learn** donne des méthodes de clustering :sparkles:.
 
