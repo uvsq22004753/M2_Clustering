@@ -43,27 +43,24 @@ def binning(spec, bin_size, opt='somme'):
     
     return Spectrum(mz=unique_bins.astype(float), intensities=binned_intensities, metadata=spec.metadata)
 
-def fixed_binning(spec, bin_size, mz_min=config.MZ_FROM, mz_max=config.MZ_TO):
+def fixed_binning_vector(spec, bin_size, mz_min=20, mz_max=2000):
     """
-    Calcule un vecteur de caractéristiques pour un spectre à l'aide d'un fixed binning
-    sans normalisation.
+    Calcule un vecteur de caractéristiques pour un spectre à l'aide d'un binning fixe
+    sans normalisation (pour être ensuite normalisé dans le pipeline de clustering).
     
-    Chaque bin est défini sur l'axe m/z entre mz_min et mz_max avec une largeur fixée par bin_size.
-    Pour chaque bin, la valeur correspond à la somme des intensités des pics dont le m/z tombe dans ce bin.
+    Arguments :
+      - spec      : Objet Spectrum (issu de matchms) avec spec.peaks.mz et spec.peaks.intensities.
+      - bin_size  : Largeur d'un bin (float).
+      - mz_min    : Valeur minimale de m/z (défaut=20).
+      - mz_max    : Valeur maximale de m/z (défaut=2000).
     
-    Arguments:
-      - spec: Spectrum (doit posséder spec.peaks.mz et spec.peaks.intensities).
-      - bin_size: float, largeur d'un bin.
-      - mz_min: float, valeur minimale de m/z (défaut=20).
-      - mz_max: float, valeur maximale de m/z (défaut=2000).
-    
-    Retourne:
-      - Spectrum: un objet Spectrum dont les m/z correspondent aux bornes inférieures de chaque bin,
-                  et les intensités sont la somme des intensités dans chaque bin, sans normalisation.
+    Retourne :
+      - Un vecteur numpy (1D) de dimension (n_bins,).
     """
     bins = np.arange(mz_min, mz_max + bin_size, bin_size)
     feature, _ = np.histogram(spec.peaks.mz, bins=bins, weights=spec.peaks.intensities)
-    return Spectrum(mz=bins[:-1].astype(float), intensities=feature, metadata=spec.metadata)
+    return feature.astype(float)
+
 
 def bin_file(input_file: str, output_dir: str, bin_size: float = 1, opt: str = 'somme') -> str:
     """
