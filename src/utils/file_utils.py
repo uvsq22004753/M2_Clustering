@@ -30,3 +30,22 @@ def load_mgf_file(file: str) -> list:
       - list: La liste des spectra chargés.
     """
     return list(load_from_mgf(file))
+
+
+def read_smiles_file(filename: str) -> list:
+    """
+    Lit un fichier texte contenant des SMILES (un SMILES par ligne) et retourne une liste de SMILES.
+    
+    Paramètres:
+      - filename (str): Chemin du fichier texte.
+    
+    Retourne:
+      - list: Une liste de SMILES.
+    """
+    smiles = []
+    with open(filename, "r") as file:
+        for line in file:
+            s = line.strip()
+            if s:
+                smiles.append(s)
+    return smiles

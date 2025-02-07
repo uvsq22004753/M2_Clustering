@@ -34,8 +34,6 @@ def process_mgf_file(mgf_file: str, output_dir: str, stats_mode: str = None):
 
     with mgf.read(mgf_file, use_index=False) as spectra:
         for i, spectrum in enumerate(spectra):
-            if i >= config.MAX_SPECTRA:
-                break
             if i % 1000 == 0:
                 logging.info(f"Processing spectrum {i}/{config.SPECTRA_SIZE}")
 

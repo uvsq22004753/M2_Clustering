@@ -52,6 +52,61 @@ def manhattan_distance_binning(spec1, spec2):
             j += 1 
     return distance
 
+def manhattan_distance_tolerance(spec1, spec2, tolerance):
+    """
+    Calcule la distance de Manhattan entre deux spectres en considérant une tolérance.
+
+    Fonctionnent sur le même principe que l'appariemment de matchms mais moins rapide que si
+    on calcule une fois binning réalisé.
+
+    Arguments
+    ----------
+    spec1 : Spectrum
+        Premier spectre (objet Matchms) contenant les m/z et les intensités.
+    spec2 : Spectrum
+        Second spectre (objet Matchms) contenant les m/z et les intensités.
+    tolerance : float
+        Tolérance pour associer les pics m/z des deux spectres.
+
+    Retourne
+    -------
+    float
+        Distance de Manhattan totale entre les deux spectres.
+    """
+    
+    spec1_mz = spec1.peaks.mz
+    spec1_intensities = spec1.peaks.intensities
+    spec2_mz = spec2.peaks.mz
+    spec2_intensities = spec2.peaks.intensities
+
+    # on cherche les matchs
+    matches = find_matches(spec1, spec2, tolerance)
+    
+    score = float(0.0)
+    used1 = set()
+    used2 = set()
+
+    if matches is not None:
+        # paire de match avec indice mz1, indice mz2 et le resultat de la valeur absolue de la différence
+        matching_pairs = matches[np.argsort(matches[:, 2], kind='mergesort')[::-1], :]
+        for i in range(matching_pairs.shape[0]):
+            if not matching_pairs[i, 0] in used1 and not matching_pairs[i, 1] in used2:
+                score += matching_pairs[i, 2]
+                # chaque pique appareillé 1 fois
+                used1.add(matching_pairs[i, 0])  
+                used2.add(matching_pairs[i, 1])
+    
+    # on rajoute les pics non utilisés encore
+    unmatched_spec1 = find_unmatched_peaks(spec1_mz, {int(x) for x in used1})
+    for idx in unmatched_spec1:
+        score += spec1_intensities[idx]
+    
+    unmatched_spec2 = find_unmatched_peaks(spec2_mz, {int(x) for x in used2})
+    for idx in unmatched_spec2:
+        score += spec2_intensities[idx]
+
+    return score
+
 def simple_similarity(spec1, spec2, tol):
     """
     Calcule une mesure de similarité simple entre deux spectres en fonction du nombre de pics m/z proches (tolérance tol).

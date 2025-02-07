@@ -1,3 +1,5 @@
 numpy
 pyteomics
 matchms
+scikit-learn
+tqdm
