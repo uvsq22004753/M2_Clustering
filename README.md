@@ -25,4 +25,8 @@ Plusieurs librairies Python sont nécessaires :
 
 ## :technologist: Utilisation
 
+`python3 cli.py --help`
+
 ## :link: Références
+
+[ALL_GNPS.mgf]{https://zenodo.org/records/11193898}
