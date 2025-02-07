@@ -12,11 +12,11 @@ logger = logging.getLogger(__name__)
 
 def load_feature_matrix(smiles_file: str, fp_size: int = 2048):
     """
-    Lit un fichier contenant des SMILES (un SMILES par ligne) et génère la matrice de fingerprints.
+    Lit un fichier contenant des SMILES (un par ligne) et génère la matrice de fingerprints.
     
     Retourne:
       - X : matrice numpy de dimension (n_samples, fp_size)
-      - smiles_list : liste des SMILES (pour les métadonnées)
+      - smiles_list : liste des SMILES lues du fichier.
     """
     smiles_list = read_smiles_file(smiles_file)
     X = generate_fingerprint_matrix(smiles_file, fp_size=fp_size)
@@ -39,12 +39,14 @@ def run_clustering_pipeline(smiles_file: str, fp_size: int, k_min: int, k_max: i
     Exécute le pipeline de clustering kmeans sur un fichier de SMILES.
     
     Étapes :
-      1. Lit le fichier de SMILES et génère la matrice de fingerprints via generate_fingerprint_matrix.
-      2. Normalise la matrice par L2.
-      3. Sélectionne le meilleur nombre de clusters (k) via le score de silhouette.
-      4. Exécute le clustering kmeans.
-      5. Génère un hash à partir des paramètres.
-      6. Sauvegarde les résultats dans un fichier JSON dans output/clustering_results/kmeans/smiles.
+      1. Lecture du fichier de SMILES et génération de la matrice de fingerprints via generate_fingerprint_matrix.
+      2. Normalisation L2 de la matrice.
+      3. Sélection du meilleur nombre de clusters (k) via le score de silhouette.
+      4. Exécution du clustering kmeans.
+      5. Génération d'un hash basé sur les paramètres.
+      6. Sauvegarde des résultats dans un fichier JSON dans output/clustering_results/kmeans/smiles.
+    
+    Pour chaque molécule, l'ID correspond au numéro de ligne dans le fichier de SMILES, commençant à 1.
     
     Retourne:
       - Le chemin complet du fichier JSON généré.
@@ -54,10 +56,10 @@ def run_clustering_pipeline(smiles_file: str, fp_size: int, k_min: int, k_max: i
     best_k, scores = select_best_k(X_norm, k_min, k_max, n_init, random_state, algorithm, n_jobs)
     labels, centers, silhouette = run_kmeans(X_norm, best_k, n_init, random_state, algorithm)
     
-    # Préparation des résultats : associer chaque SMILES à son cluster
+    # Pour chaque SMILES, l'ID est son index + 1
     results = []
-    for i, smile in enumerate(smiles_list):
-        results.append({"smile": smile, "cluster": int(labels[i])})
+    for i in range(len(smiles_list)):
+        results.append({"id": i + 1, "cluster": int(labels[i])})
     
     params = {
         "smiles_file": smiles_file,
