@@ -6,7 +6,8 @@ import hashlib
 from datetime import datetime
 from utils.file_utils import read_smiles_file
 from smiles.similarity.matrix import generate_fingerprint_matrix
-from clustering_utilis.kmeans import normalize_features, select_best_k, run_kmeans, write_json_results
+from clustering_utilis.kmeans import normalize_features, select_best_k, run_kmeans
+from clustering_utilis.common import generate_hash, write_json_results
 
 logger = logging.getLogger(__name__)
 
@@ -22,15 +23,6 @@ def load_feature_matrix(smiles_file: str, fp_size: int = 2048):
     X = generate_fingerprint_matrix(smiles_file, fp_size=fp_size)
     logger.info("Fingerprint matrix shape: %s", X.shape)
     return X, smiles_list
-
-def generate_hash(metadata: dict) -> str:
-    """
-    Génère un hash MD5 à partir d'un dictionnaire de paramètres, en excluant les clés variables (date, timestamp).
-    Retourne une chaîne de 8 caractères.
-    """
-    filtered = {k: metadata[k] for k in sorted(metadata) if k not in ['date', 'timestamp']}
-    metadata_str = json.dumps(filtered, sort_keys=True)
-    return hashlib.md5(metadata_str.encode('utf-8')).hexdigest()[:8]
 
 def run_clustering_pipeline(smiles_file: str, fp_size: int, k_min: int, k_max: int,
                             n_init: int = 10, random_state: int = 42, algorithm: str = 'mini',

@@ -79,21 +79,3 @@ def run_kmeans(X, k, n_init=10, random_state=42, algorithm='mini'):
     centers = model.cluster_centers_
     score = silhouette_score(X, labels)
     return labels, centers, score
-
-def write_json_results(params, performance, results, output_file):
-    """
-    Écrit les résultats du clustering dans un fichier JSON avec la structure suivante :
-      - metadata (date, paramètres, performance)
-      - results (liste d'assignations)
-    """
-    output = {
-        "metadata": {
-            "date": datetime.now().isoformat(),
-            "parameters": params,
-            "performance": performance
-        },
-        "results": results
-    }
-    with open(output_file, "w") as f:
-        json.dump(output, f, indent=4)
-    logger.info("Results written to %s", output_file)

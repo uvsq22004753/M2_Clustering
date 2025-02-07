@@ -6,14 +6,18 @@ Utilisation:
   spectra_analyser <command> [options]
 
 Commandes disponibles :
-  process         Exécute le parsing et le découpage du fichier MGF (module processing).
-  cluster_spectra Exécute le pipeline de clustering kmeans sur un fichier MGF de spectres.
-  cluster_smiles  Exécute le pipeline de clustering kmeans sur un fichier de SMILES.
-  
+  process            Exécute le parsing et le découpage du fichier MGF (module processing).
+  kmeans_spectra     Pipeline de clustering kmeans pour spectres (fichier MGF).
+  kmeans_smiles      Pipeline de clustering kmeans pour SMILES.
+  hac_spectra        Pipeline de clustering HAC pour spectres (fichier MGF).
+  hac_smiles         Pipeline de clustering HAC pour SMILES.
+
 Exemples :
   spectra_analyser process --mgf_file data/ALL_GNPS_cleaned.mgf --output_dir data/adducts --stats file --log-level INFO
-  spectra_analyser cluster_spectra --mgf_file data/adducts/spectra/[M+H]1+_example.mgf --bin_size 5 --k_min 2 --k_max 10 --algorithm mini --n_init 10 --random_state 42 --mz_min 20 --mz_max 2000 --n_jobs -1 --log-level INFO
-  spectra_analyser cluster_smiles --smiles_file data/adducts/smiles/smiles.txt --fp_size 2048 --k_min 2 --k_max 10 --algorithm mini --n_init 10 --random_state 42 --n_jobs -1 --log-level INFO
+  spectra_analyser kmeans_spectra --mgf_file data/adducts/spectra/[M-3H2O+H]1+.mgf --bin_size 5 --k_min 2 --k_max 10 --algorithm mini --n_init 10 --random_state 42 --mz_min 20 --mz_max 2000 --n_jobs -1 --log-level INFO
+  spectra_analyser kmeans_smiles --smiles_file data/adducts/smiles/[M-3H2O+H]1+.smiles --fp_size 2048 --k_min 2 --k_max 10 --algorithm mini --n_init 10 --random_state 42 --n_jobs -1 --log-level INFO
+  spectra_analyser hac_spectra --mgf_file data/adducts/spectra/[M-3H2O+H]1+.mgf --bin_size 5 --n_clusters 4 --mz_min 20 --mz_max 2000 --tol 0.1 --dist_method cosine_greedy --num_workers -1 --log-level INFO
+  spectra_analyser hac_smiles --smiles_file data/adducts/smiles/[M-3H2O+H]1+.smiles --fp_size 2048 --n_clusters 4 --sim_type cosinus --log-level INFO
 """
 
 import argparse
@@ -21,7 +25,9 @@ import logging
 import config
 from processing import mgf_processor
 from spectra.clustering_pipeline import kmeans as spectra_kmeans
+from spectra.clustering_pipeline import hac as spectra_hac
 from smiles.clustering_pipeline import kmeans as smiles_kmeans
+from smiles.clustering_pipeline import hac as smiles_hac
 
 __all__ = ["main"]
 
@@ -38,7 +44,7 @@ def main():
     )
     subparsers = parser.add_subparsers(dest="command", help="Commandes disponibles")
     
-    # Sous-commande 'process'
+    # Commande 'process'
     parser_process = subparsers.add_parser("process",
                                              help="Parsage et découpage du fichier MGF",
                                              parents=[parent_parser])
@@ -49,51 +55,89 @@ def main():
     parser_process.add_argument("--stats", nargs="?", const="console", choices=["console", "file"],
                                 help="Si spécifié, calcule les statistiques (console ou file)")
     
-    # Sous-commande 'cluster_spectra'
-    parser_cluster = subparsers.add_parser("cluster_spectra",
-                                             help="Pipeline de clustering kmeans pour spectres (fichier MGF)",
-                                             parents=[parent_parser])
-    parser_cluster.add_argument("--mgf_file", type=str, required=True,
-                                help="Fichier MGF de spectres à traiter.")
-    parser_cluster.add_argument("--bin_size", type=float, required=True,
-                                help="Taille du bin pour le fixed binning.")
-    parser_cluster.add_argument("--k_min", type=int, required=True,
-                                help="Nombre minimal de clusters à tester.")
-    parser_cluster.add_argument("--k_max", type=int, required=True,
-                                help="Nombre maximal de clusters à tester.")
-    parser_cluster.add_argument("--algorithm", type=str, choices=["mini", "kmeans"], default="mini",
-                                help="Algorithme à utiliser: 'mini' pour MiniBatchKMeans ou 'kmeans' pour KMeans standard (défaut: mini)")
-    parser_cluster.add_argument("--n_init", type=int, default=10,
-                                help="Nombre d'initialisations (défaut: 10)")
-    parser_cluster.add_argument("--random_state", type=int, default=42,
-                                help="Graine aléatoire (défaut: 42)")
-    parser_cluster.add_argument("--mz_min", type=float, default=20,
-                                help="Valeur minimale de m/z (défaut: 20)")
-    parser_cluster.add_argument("--mz_max", type=float, default=2000,
-                                help="Valeur maximale de m/z (défaut: 2000)")
-    parser_cluster.add_argument("--n_jobs", type=int, default=-1,
-                                help="Nombre de jobs parallèles pour la sélection de k (défaut: -1)")
+    # Commande 'kmeans_spectra'
+    parser_kmeans_spec = subparsers.add_parser("kmeans_spectra",
+                                                 help="Pipeline de clustering kmeans pour spectres (fichier MGF)",
+                                                 parents=[parent_parser])
+    parser_kmeans_spec.add_argument("--mgf_file", type=str, required=True,
+                                    help="Fichier MGF de spectres à traiter.")
+    parser_kmeans_spec.add_argument("--bin_size", type=float, required=True,
+                                    help="Taille du bin pour le fixed binning.")
+    parser_kmeans_spec.add_argument("--k_min", type=int, required=True,
+                                    help="Nombre minimal de clusters à tester.")
+    parser_kmeans_spec.add_argument("--k_max", type=int, required=True,
+                                    help="Nombre maximal de clusters à tester.")
+    parser_kmeans_spec.add_argument("--algorithm", type=str, choices=["mini", "kmeans"], default="mini",
+                                    help="Algorithme à utiliser (défaut: mini)")
+    parser_kmeans_spec.add_argument("--n_init", type=int, default=10,
+                                    help="Nombre d'initialisations (défaut: 10)")
+    parser_kmeans_spec.add_argument("--random_state", type=int, default=42,
+                                    help="Graine aléatoire (défaut: 42)")
+    parser_kmeans_spec.add_argument("--mz_min", type=float, default=20,
+                                    help="Valeur minimale de m/z (défaut: 20)")
+    parser_kmeans_spec.add_argument("--mz_max", type=float, default=2000,
+                                    help="Valeur maximale de m/z (défaut: 2000)")
+    parser_kmeans_spec.add_argument("--n_jobs", type=int, default=-1,
+                                    help="Nombre de jobs parallèles (défaut: -1)")
     
-    # Sous-commande 'cluster_smiles'
-    parser_smiles = subparsers.add_parser("cluster_smiles",
-                                          help="Pipeline de clustering kmeans pour SMILES",
-                                          parents=[parent_parser])
-    parser_smiles.add_argument("--smiles_file", type=str, required=True,
-                               help="Fichier texte contenant des SMILES (un par ligne).")
-    parser_smiles.add_argument("--fp_size", type=int, default=2048,
-                               help="Taille du fingerprint Morgan (défaut: 2048)")
-    parser_smiles.add_argument("--k_min", type=int, required=True,
-                               help="Nombre minimal de clusters à tester.")
-    parser_smiles.add_argument("--k_max", type=int, required=True,
-                               help="Nombre maximal de clusters à tester.")
-    parser_smiles.add_argument("--algorithm", type=str, choices=["mini", "kmeans"], default="mini",
-                               help="Algorithme à utiliser (défaut: mini)")
-    parser_smiles.add_argument("--n_init", type=int, default=10,
-                               help="Nombre d'initialisations (défaut: 10)")
-    parser_smiles.add_argument("--random_state", type=int, default=42,
-                               help="Graine aléatoire (défaut: 42)")
-    parser_smiles.add_argument("--n_jobs", type=int, default=-1,
-                               help="Nombre de jobs parallèles pour la sélection de k (défaut: -1)")
+    # Commande 'kmeans_smiles'
+    parser_kmeans_smiles = subparsers.add_parser("kmeans_smiles",
+                                                 help="Pipeline de clustering kmeans pour SMILES",
+                                                 parents=[parent_parser])
+    parser_kmeans_smiles.add_argument("--smiles_file", type=str, required=True,
+                                      help="Fichier texte contenant des SMILES (un par ligne).")
+    parser_kmeans_smiles.add_argument("--fp_size", type=int, default=2048,
+                                      help="Taille du fingerprint Morgan (défaut: 2048)")
+    parser_kmeans_smiles.add_argument("--k_min", type=int, required=True,
+                                      help="Nombre minimal de clusters à tester.")
+    parser_kmeans_smiles.add_argument("--k_max", type=int, required=True,
+                                      help="Nombre maximal de clusters à tester.")
+    parser_kmeans_smiles.add_argument("--algorithm", type=str, choices=["mini", "kmeans"], default="mini",
+                                      help="Algorithme à utiliser (défaut: mini)")
+    parser_kmeans_smiles.add_argument("--n_init", type=int, default=10,
+                                      help="Nombre d'initialisations (défaut: 10)")
+    parser_kmeans_smiles.add_argument("--random_state", type=int, default=42,
+                                      help="Graine aléatoire (défaut: 42)")
+    parser_kmeans_smiles.add_argument("--n_jobs", type=int, default=-1,
+                                      help="Nombre de jobs parallèles (défaut: -1)")
+    
+    # Commande 'hac_spectra'
+    parser_hac_spec = subparsers.add_parser("hac_spectra",
+                                             help="Pipeline de clustering HAC pour spectres (fichier MGF)",
+                                             parents=[parent_parser])
+    parser_hac_spec.add_argument("--mgf_file", type=str, required=True,
+                                 help="Fichier MGF de spectres à traiter.")
+    parser_hac_spec.add_argument("--bin_size", type=float, required=True,
+                                 help="Taille du bin pour le binning.")
+    parser_hac_spec.add_argument("--n_clusters", type=int, required=True,
+                                 help="Nombre de clusters à former avec HAC.")
+    parser_hac_spec.add_argument("--mz_min", type=float, default=20,
+                                 help="Valeur minimale de m/z (défaut: 20)")
+    parser_hac_spec.add_argument("--mz_max", type=float, default=2000,
+                                 help="Valeur maximale de m/z (défaut: 2000)")
+    parser_hac_spec.add_argument("--tol", type=float, default=0.1,
+                                 help="Tolérance pour le calcul de la matrice de distance (défaut: 0.1)")
+    parser_hac_spec.add_argument("--num_workers", type=int, default=-1,
+                                 help="Nombre de workers pour le calcul parallèle (défaut: -1)")
+    parser_hac_spec.add_argument("--dist_method", type=str,
+                                 choices=["cosinus", "manhattan", "simple", "cosine_greedy"],
+                                 default="cosinus",
+                                 help="Méthode de calcul de distance pour les spectres (défaut: cosinus)")
+    
+    # Commande 'hac_smiles'
+    parser_hac_smiles = subparsers.add_parser("hac_smiles",
+                                              help="Pipeline de clustering HAC pour SMILES",
+                                              parents=[parent_parser])
+    parser_hac_smiles.add_argument("--smiles_file", type=str, required=True,
+                                   help="Fichier texte contenant des SMILES (un par ligne).")
+    parser_hac_smiles.add_argument("--fp_size", type=int, default=2048,
+                                   help="Taille du fingerprint Morgan (défaut: 2048)")
+    parser_hac_smiles.add_argument("--n_clusters", type=int, required=True,
+                                   help="Nombre de clusters à former avec HAC.")
+    parser_hac_smiles.add_argument("--sim_type", type=str,
+                                   choices=["cosinus", "jaccard"],
+                                   default="jaccard",
+                                   help="Type de similarité pour SMILES (défaut: jaccard)")
     
     args = parser.parse_args()
     
@@ -102,7 +146,7 @@ def main():
     
     if args.command == "process":
         mgf_processor.process_mgf_file(args.mgf_file, args.output_dir, stats_mode=args.stats)
-    elif args.command == "cluster_spectra":
+    elif args.command == "kmeans_spectra":
         spectra_kmeans.run_clustering_pipeline(
             mgf_file=args.mgf_file,
             bin_size=args.bin_size,
@@ -115,7 +159,7 @@ def main():
             mz_max=args.mz_max,
             n_jobs=args.n_jobs
         )
-    elif args.command == "cluster_smiles":
+    elif args.command == "kmeans_smiles":
         smiles_kmeans.run_clustering_pipeline(
             smiles_file=args.smiles_file,
             fp_size=args.fp_size,
@@ -125,6 +169,28 @@ def main():
             random_state=args.random_state,
             algorithm=args.algorithm,
             n_jobs=args.n_jobs
+        )
+    elif args.command == "hac_spectra":
+        num_workers = args.num_workers if args.num_workers != -1 else None
+        from spectra.clustering_pipeline import hac as spectra_hac
+        spectra_hac.run_hac_pipeline(
+            mgf_file=args.mgf_file,
+            bin_size=args.bin_size,
+            n_clusters=args.n_clusters,
+            opt="somme",  # On utilise "somme" pour le binning ici
+            mz_min=args.mz_min,
+            mz_max=args.mz_max,
+            tol=args.tol,
+            num_workers=num_workers,
+            dist_method=args.dist_method
+        )
+    elif args.command == "hac_smiles":
+        from smiles.clustering_pipeline import hac as smiles_hac
+        smiles_hac.run_hac_pipeline_smiles(
+            smiles_file=args.smiles_file,
+            fp_size=args.fp_size,
+            k_clusters=args.n_clusters,
+            sim_type=args.sim_type
         )
     else:
         parser.print_help()

@@ -58,6 +58,33 @@ def save_matrix(matrix: np.ndarray, output_file: str):
         for i in range(1, size):
             writer.writerow(matrix[i, :i])
 
+def read_matrix(input_file: str) -> np.ndarray:
+    """
+    Lit une matrice triangulaire inférieure depuis un fichier CSV et la reconstruit en matrice carrée.
+
+    Arguments
+    ----------
+    input_file : str
+        Chemin du fichier CSV contenant la matrice.
+
+    Retourne
+    -------
+    numpy.ndarray
+        Matrice symétrique de distances.
+    """
+    lower_triangular = []
+    with open(input_file, 'r') as f:
+        reader = csv.reader(f)
+        for row in reader:
+            lower_triangular.append([float(x) for x in row if x])
+    # La taille de la matrice carrée est le nombre de lignes + 1
+    size = len(lower_triangular) + 1  
+    square_matrix = np.zeros((size, size))
+    for i in range(1, size):
+        square_matrix[i, :i] = lower_triangular[i - 1]
+    square_matrix += square_matrix.T
+    return square_matrix
+
 def make_matrix_for_file(input_file: str, methode: str, output_dir: str, tol: float = 0.1, num_workers: int = None) -> str:
     """
     Calcule la matrice de distance pour un fichier MGF binned et sauvegarde le résultat dans un sous-dossier.
