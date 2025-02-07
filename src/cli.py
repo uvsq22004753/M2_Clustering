@@ -12,16 +12,22 @@ Commandes disponibles :
   hac_spectra        Pipeline de clustering HAC pour spectres (fichier MGF).
   hac_smiles         Pipeline de clustering HAC pour SMILES.
   hdbscan_spectra    Pipeline de clustering HDBSCAN pour spectres (fichier MGF).
+  hdbscan_smiles     Pipeline de clustering HDBSCAN pour SMILES.
+  compare_clusters   Compare deux fichiers JSON de clustering et sauvegarde l'image de la comparaison.
+  compare_scores     Compare deux fichiers JSON de clustering et affiche les scores ARI et NMI.
+  
 
 
 Exemples :
-  spectra_analyser process --mgf_file data/ALL_GNPS_cleaned.mgf --output_dir data/adducts --stats file --log-level INFO
-  spectra_analyser kmeans_spectra --mgf_file data/adducts/spectra/[M-3H2O+H]1+.mgf --bin_size 5 --k_min 2 --k_max 10 --algorithm mini --n_init 10 --random_state 42 --mz_min 20 --mz_max 2000 --n_jobs -1 --log-level INFO
-  spectra_analyser kmeans_smiles --smiles_file data/adducts/smiles/[M-3H2O+H]1+.smiles --fp_size 2048 --k_min 2 --k_max 10 --algorithm mini --n_init 10 --random_state 42 --n_jobs -1 --log-level INFO
-  spectra_analyser hac_spectra --mgf_file data/adducts/spectra/[M-3H2O+H]1+.mgf --bin_size 5 --n_clusters 4 --mz_min 20 --mz_max 2000 --tol 0.1 --dist_method cosine_greedy --num_workers -1 --log-level INFO
-  spectra_analyser hac_smiles --smiles_file data/adducts/smiles/[M-3H2O+H]1+.smiles --fp_size 2048 --n_clusters 4 --sim_type cosinus --log-level INFO
-  spectra_analyser hdbscan_spectra --mgf_file data/adducts/spectra/[M-3H2O+H]1+.mgf --bin_size 5 --n_clusters 4 --min_samples 2 --mz_min 20 --mz_max 2000 --tol 0.1 --dist_method cosine_greedy --num_workers -1 --log-level INFO
-
+  python cli.py process --mgf_file data/ALL_GNPS_cleaned.mgf --output_dir data/adducts --stats file --log-level INFO
+  python cli.py kmeans_spectra --mgf_file data/adducts/spectra/[M-3H2O+H]1+.mgf --bin_size 5 --k_min 2 --k_max 10 --algorithm mini --n_init 10 --random_state 42 --mz_min 20 --mz_max 2000 --n_jobs -1 --log-level INFO
+  python cli.py kmeans_smiles --smiles_file data/adducts/smiles/[M-3H2O+H]1+.smiles --fp_size 2048 --k_min 2 --k_max 10 --algorithm mini --n_init 10 --random_state 42 --n_jobs -1 --log-level INFO
+  python cli.py hac_spectra --mgf_file data/adducts/spectra/[M-3H2O+H]1+.mgf --bin_size 5 --n_clusters 4 --mz_min 20 --mz_max 2000 --tol 0.1 --dist_method cosine_greedy --num_workers -1 --log-level INFO
+  python cli.py hac_smiles --smiles_file data/adducts/smiles/[M-3H2O+H]1+.smiles --fp_size 2048 --n_clusters 4 --sim_type cosinus --log-level INFO
+  python cli.py hdbscan_spectra --mgf_file data/adducts/spectra/[M-3H2O+H]1+.mgf --bin_size 5 --n_clusters 4 --min_samples 2 --mz_min 20 --mz_max 2000 --tol 0.1 --dist_method cosine_greedy --num_workers -1 --log-level INFO
+  python cli.py hdbscan_smiles --smiles_file data/adducts/smiles/[M-3H2O+H]1+.smiles --fp_size 2048 --n_clusters 4 --min_samples 1 --sim_type cosinus --log-level INFO
+  python cli.py compare_clusters --cluster_file1 output\clustering_results\hac\smiles\[M-3H2O+H]1+_fp2048\[M-3H2O+H]1+_hac_18_4a92a3a1.json  --cluster_file2 .\output\clustering_results\hac\spectra\[M-3H2O+H]1+_Bin5.0\[M-3H2O+H]1+_hac_18_5485cd75.json --log-level INFO
+  python cli.py compare_scores --cluster_file1 output\clustering_results\hac\smiles\[M-3H2O+H]1+_fp2048\[M-3H2O+H]1+_hac_18_4a92a3a1.json  --cluster_file2 .\output\clustering_results\hac\spectra\[M-3H2O+H]1+_Bin5.0\[M-3H2O+H]1+_hac_18_5485cd75.json
 """
 
 import argparse
@@ -33,6 +39,9 @@ from spectra.clustering_pipeline import hac as spectra_hac
 from smiles.clustering_pipeline import kmeans as smiles_kmeans
 from smiles.clustering_pipeline import hac as smiles_hac
 from smiles.clustering_pipeline import hdbscan as smiles_hdbscan
+from cluster_comparison import compare as comp
+from cluster_comparison import scores as comp_scores
+
 
 __all__ = ["main"]
 
@@ -185,6 +194,27 @@ def main():
                                       choices=["cosinus", "jaccard"],
                                       default="jaccard",
                                       help="Type de similarité pour SMILES (défaut: jaccard)")
+    
+    # commande 'compare_clusters'
+    parser_compare = subparsers.add_parser("compare_clusters",
+                                            help="Compare deux fichiers JSON de clustering et sauvegarde une image des centroids",
+                                            parents=[parent_parser])
+    parser_compare.add_argument("--cluster_file1", type=str, required=True,
+                                help="Premier fichier JSON de clustering.")
+    parser_compare.add_argument("--cluster_file2", type=str, required=True,
+                                help="Deuxième fichier JSON de clustering.")
+    parser_compare.add_argument("--output_image", type=str, default=None,
+                                help="Chemin du fichier image de sortie. Si non spécifié, il sera généré automatiquement dans output/comparison/centroids/")
+
+    # Commande 'compare_scores'
+    parser_compare = subparsers.add_parser("compare_scores",
+                                            help="Compare deux fichiers JSON de clustering et affiche les scores ARI et NMI",
+                                            parents=[parent_parser])
+    parser_compare.add_argument("--cluster_file1", type=str, required=True,
+                                help="Premier fichier JSON de clustering.")
+    parser_compare.add_argument("--cluster_file2", type=str, required=True,
+                                help="Deuxième fichier JSON de clustering.")
+
         
     
     args = parser.parse_args()
@@ -262,6 +292,11 @@ def main():
           min_samples=args.min_samples,
           sim_type=args.sim_type
       )
+    elif args.command == "compare_clusters":
+      comp.main_compare(args.cluster_file1, args.cluster_file2, args.output_image)
+    elif args.command == "compare_scores":
+      comp_scores.compare_clusterings(args.cluster_file1, args.cluster_file2)
+
     else:
         parser.print_help()
 
