@@ -63,6 +63,14 @@ def run_hdbscan_pipeline(mgf_file: str, bin_size: float, n_clusters: int,
     # 4. Appliquer HDBSCAN sur la matrice de distances
     labels, max_label = apply_hdbscan(distance_matrix, min_cluster_size=n_clusters, min_samples=min_samples)
     
+    # === Attribution des points bruit à des clusters uniques ===
+    current_cluster_id = max_label + 1
+    for idx, cluster in enumerate(labels):
+        if cluster == -1:
+            labels[idx] = current_cluster_id
+            current_cluster_id += 1
+    # ====================================================
+    
     # 5. Recharger les spectres depuis le fichier binned
     spectra_list = list(load_from_mgf(binned_file))
     results = []

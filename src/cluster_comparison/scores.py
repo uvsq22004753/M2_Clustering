@@ -29,15 +29,16 @@ def transform_dict_cluster_to_list(clusters_dict: dict) -> list:
     
     Si une molécule n'appartient à aucun cluster, la valeur par défaut est -1.
     """
-    # Détermine la taille nécessaire en prenant le maximum d'ID parmi tous les clusters.
-    num_molecules = max(max(cluster) for cluster in clusters_dict.values()) + 1
+    # Conversion de tous les identifiants en int pour être sûr
+    num_molecules = max(max(int(mol_id) for mol_id in cluster) for cluster in clusters_dict.values()) + 1
     cluster_list = [-1] * num_molecules  # valeur par défaut: -1 (non affecté)
     
     # Remplit la liste selon le mapping des clusters.
     for cluster_id, molecule_ids in clusters_dict.items():
         for molecule_id in molecule_ids:
-            cluster_list[molecule_id] = cluster_id
+            cluster_list[int(molecule_id)] = cluster_id
     return cluster_list
+
 
 def ARI(cluster_list1: list, cluster_list2: list) -> float:
     """

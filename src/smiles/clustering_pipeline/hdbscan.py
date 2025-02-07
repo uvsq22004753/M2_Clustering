@@ -116,6 +116,15 @@ def run_hdbscan_pipeline_smiles(smiles_file: str,
     # 7. Réaffecter les labels aux SMILES originaux via le mapping
     mapped_labels = map_labels(mapping, labels_unique, total)
     
+    # === Intégration de la logique d'attribution des bruits à des clusters uniques ===
+    # Initialiser l'ID du nouveau cluster à partir de max_label + 1
+    current_cluster_id = max_label + 1
+    for idx, label in enumerate(mapped_labels):
+        if label == -1:
+            mapped_labels[idx] = current_cluster_id
+            current_cluster_id += 1
+    # =================================================================================
+
     # 8. Préparer les résultats (IDs = indices originaux, commençant à 0)
     results = [{"id": i, "cluster": int(mapped_labels[i])} for i in range(total)]
     

@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """
 Point d'entrée global pour spectra_analyser.
 

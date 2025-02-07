@@ -26,7 +26,7 @@ def cosinus_binning(spec1, spec2):
     if norm1 == 0 or norm2 == 0:
         return 1.0
     similarity /= (norm1 * norm2)
-    return np.round(abs(1 - similarity), 10)
+    return abs(1 - similarity)
 
 def manhattan_distance_binning(spec1, spec2):
     """
