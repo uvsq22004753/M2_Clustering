@@ -21,7 +21,7 @@ def read_cluster_json(file_path: str) -> dict:
         mid = item["id"]
         if cid not in clusters:
             clusters[cid] = []
-        clusters[cid].append(mid)
+        clusters[cid].append(int(mid))
     return clusters
 
 def total_molecules(clusters: dict) -> int:
@@ -79,7 +79,7 @@ def display_comparison(centroids, points, colors, base_marker_size=10, output_pa
     
     for i in range(len(points)):
         marker = markers[int(colors[i]) % len(markers)] if colors[i] is not None else 'o'
-        color = plt.cm.tab10(int(colors[i]) % 10) if colors[i] is not None else 'black'
+        color = plt.cm.tab10(int(colors[i]) // len(markers)) if colors[i] is not None else 'black'
         ax.plot(points[i][0], points[i][1], marker, color=color, markersize=base_marker_size)
     
     s1 = 10
