@@ -10,7 +10,7 @@
 ## :mag: Présentation
 
 Ce projet a été réalise dans le cadre du module _Projet_ du Master AMIS. Le but est d’étudier la similarité de spectres de masse d’une part et des SMILES d’autre part puis
-de mesurer si l’on retrouve des points communs dans ces deux similarités.
+de mesurer si l’on retrouve des points communs dans ces deux représentations.
 
 ## :hammer: Installation
 
