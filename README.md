@@ -29,4 +29,4 @@ Plusieurs librairies Python sont nécessaires :
 
 ## :link: Références
 
-[ALL_GNPS.mgf]{https://zenodo.org/records/11193898}
+[ALL_GNPS.mgf](https://zenodo.org/records/11193898)
